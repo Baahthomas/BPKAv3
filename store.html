@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store | Kingdom Alignment Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #6c5ce7;
+            --deep-purple: #4834d4;
+            --gold-accent: #c5a059;
+            --gold-dark: #9c7a38;
+            --black-bg: #000000;
+            --white: #ffffff;
+            --light-gray: #f8f8f8;
+            --teal-accent: #00a896;
+            --teal-dark: #0d9488;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .material-icons-round {
+            font-size: inherit;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        /* ===== REDESIGNED HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .header-top-bar { display: none; }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            min-height: 70px;
+        }
+
+        .header-nav-left,
+        .header-nav-right {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .header-nav-left { justify-content: flex-start; }
+        .header-nav-right { justify-content: flex-end; }
+
+        .header-nav-left li a,
+        .header-nav-right li a {
+            color: rgba(26,26,26,0.8);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding: 7px 14px;
+            display: block;
+            border-radius: 100px;
+            background: rgba(0,0,0,0.07);
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .header-nav-left li a:hover,
+        .header-nav-right li a:hover { background: rgba(0,0,0,0.14); color: #1a1a1a; }
+
+        .header-nav-left li a.active,
+        .header-nav-right li a.active { color: var(--gold-accent); background: rgba(0,0,0,0.1); }
+        .header-nav-right li a:has(.header-icon-btn) { background: transparent; padding: 0; border-radius: 0; }
+        .header-icon-btn { border: none; background: transparent; }
+
+        .header-logo-center {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+        }
+
+        .header-logo-emblem {
+            display: inline-block;
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border: 1.5px solid var(--gold-accent);
+            transform: rotate(45deg);
+            position: relative;
+        }
+
+        .header-logo-emblem::before {
+            content: '✦';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            color: var(--gold-accent);
+            font-size: 16px;
+        }
+
+        .header-logo-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            white-space: nowrap;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .header-icon-btn {
+            width: 34px; height: 34px;
+            border: 1px solid rgba(197,160,89,0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(26,26,26,0.6);
+            font-size: 14px;
+        }
+        .header-icon-btn:hover {
+            border-color: var(--gold-accent);
+            color: var(--gold-accent);
+            background: rgba(197,160,89,0.1);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu-btn {
+            display: none; background: none;
+            border: 1px solid rgba(197,160,89,0.4); color: rgba(26,26,26,0.85);
+            width: 40px; height: 40px; border-radius: 6px; font-size: 20px;
+            cursor: pointer; align-items: center; justify-content: center;
+            transition: all 0.3s; flex-shrink: 0;
+        }
+        .mobile-menu-btn:hover { border-color: var(--gold-accent); color: var(--gold-accent); }
+        .mobile-nav {
+            display: none; flex-direction: column;
+            background: #0a0a0a; border-top: 1px solid rgba(197,160,89,0.15); padding: 6px 0 14px;
+        }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a {
+            color: rgba(255,255,255,0.7); text-decoration: none;
+            font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 13px 5%; border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: color 0.25s, padding-left 0.25s;
+        }
+        .mobile-nav a:hover { color: var(--gold-accent); padding-left: calc(5% + 10px); }
+        .mobile-nav a.active { color: var(--gold-accent); }
+        .mobile-nav a:last-child { border-bottom: none; }
+
+        @media (max-width: 900px) {
+            .header-top-bar { display: none; }
+            .header-main { padding: 0 4%; }
+            .header-nav-right { display: none; }
+            .header-logo-center { padding: 10px 0; }
+            .header-logo-name { font-size: 10px; letter-spacing: 2px; }
+            .header-logo-emblem { width: 32px; height: 32px; margin-bottom: 4px; }
+            .mobile-menu-btn { display: flex; justify-self: end; }
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal-up    { opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
+        .reveal-left  { opacity: 0; transform: translateX(-100px); transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
+        .reveal-right { opacity: 0; transform: translateX(100px);  transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1); }
+        .reveal-fade  { opacity: 0; transition: opacity 1.2s ease-out; }
+        .is-visible   { opacity: 1; transform: translate(0); }
+
+        /* ===== HERO ===== */
+        .store-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 420px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #eee;
+        }
+
+        .hero-geo {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .geo-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        .geo-ring-1 { width: 700px; height: 700px; top: -250px; left: -180px; }
+        .geo-ring-2 { width: 500px; height: 500px; top: -150px; left: -80px; border-color: rgba(108, 92, 231, 0.1); }
+        .geo-ring-3 { width: 340px; height: 340px; bottom: -140px; right: -100px; border-color: rgba(197,160,89,0.12); }
+        .geo-ring-4 { width: 220px; height: 220px; top: -60px; right: 15%; border-color: rgba(108,92,231,0.08); }
+
+        .geo-stripe {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(197,160,89,0.18), transparent);
+            transform: rotate(20deg) translateX(-50%);
+        }
+        .geo-stripe-1 { left: 22%; }
+        .geo-stripe-2 { left: 88%; opacity: 0.5; }
+
+        .store-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .store-hero-content h1 {
+            font-size: 36px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .store-hero-content h1 em {
+            font-style: normal;
+            color: var(--primary-purple);
+        }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 0 auto 28px;
+        }
+        .hero-divider-line { width: 60px; height: 1px; background: rgba(197,160,89,0.5); }
+        .hero-divider-diamond { width: 8px; height: 8px; background: var(--gold-accent); transform: rotate(45deg); }
+
+        .store-hero-content p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #555;
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            background: var(--white);
+            padding: 14px 5%;
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .breadcrumb a { color: var(--primary-purple); text-decoration: none; font-weight: 500; }
+        .breadcrumb-sep { color: #ccc; }
+
+        /* ===== SHARED ===== */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+        .section-title em { font-style: normal; color: var(--primary-purple); }
+
+        .section-title-center {
+            font-size: 36px;
+            font-weight: 500;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .section-title-center em { font-style: normal; color: var(--primary-purple); }
+
+        .teal-rule { width: 80px; height: 4px; background-color: var(--teal-accent); margin-bottom: 30px; }
+        .teal-rule-center { width: 80px; height: 4px; background-color: var(--teal-accent); margin: 0 auto 50px; }
+
+        /* ===== FEATURED BANNER ===== */
+        .featured-banner {
+            background: var(--light-gray);
+            padding: 80px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .featured-text-side { padding-right: 12px; }
+
+        .featured-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--primary-purple);
+            color: var(--white);
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        .featured-tag .material-icons-round { font-size: 14px; }
+
+        .featured-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .featured-title em { font-style: normal; color: var(--primary-purple); }
+
+        .featured-desc {
+            font-size: 16px;
+            font-weight: 400;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 36px;
+            max-width: 420px;
+        }
+
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        .featured-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-purple);
+            letter-spacing: -1px;
+        }
+
+        .featured-price-old {
+            font-size: 18px;
+            font-weight: 500;
+            color: #bbb;
+            text-decoration: line-through;
+        }
+
+        .featured-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+        .btn-featured-buy {
+            background: var(--gold-accent);
+            color: #0a0a0a;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-featured-buy:hover { background: var(--gold-dark); transform: scale(1.04); }
+        .btn-featured-buy .material-icons-round { font-size: 20px; }
+
+        .btn-featured-preview {
+            background: transparent;
+            color: #555;
+            padding: 14px 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-featured-preview:hover { border-color: var(--primary-purple); color: var(--primary-purple); }
+
+        .featured-book-side {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .book-mockup { position: relative; width: 280px; }
+
+        .book-cover {
+            width: 100%;
+            background: linear-gradient(145deg, #1a1208, #2e2010, #1a1208);
+            border-radius: 4px 12px 12px 4px;
+            padding: 40px 30px;
+            box-shadow:
+                -6px 6px 0 #0a0a0a,
+                -12px 12px 0 rgba(0,0,0,0.4),
+                0 30px 80px rgba(0,0,0,0.6);
+            border-left: 6px solid var(--gold-dark);
+            position: relative;
+            overflow: hidden;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 40px,
+                rgba(197,160,89,0.03) 40px,
+                rgba(197,160,89,0.03) 41px
+            );
+        }
+
+        .book-cover-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            opacity: 0.7;
+        }
+
+        .book-cover-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.2;
+            margin: 20px 0 10px;
+        }
+
+        .book-cover-subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        .book-cover-cross {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.06;
+            color: var(--gold-accent);
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-cover-cross .material-icons-round { font-size: 120px; }
+
+        .book-cover-author {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold-accent);
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: -14px;
+            right: -14px;
+            width: 64px;
+            height: 64px;
+            background: var(--teal-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 9px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            line-height: 1.3;
+            box-shadow: 0 4px 16px rgba(0,168,150,0.4);
+        }
+
+        /* ===== FILTER / SHOP TOOLBAR ===== */
+        .shop-toolbar {
+            padding: 36px 5% 0;
+            background: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 24px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 9px 20px;
+            border: 1px solid #ddd;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-tab .material-icons-round { font-size: 16px; }
+        .filter-tab:hover { border-color: var(--primary-purple); color: var(--primary-purple); }
+        .filter-tab.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+
+        .sort-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-label { font-size: 13px; font-weight: 600; color: #888; }
+
+        .sort-select {
+            padding: 9px 36px 9px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            background: var(--white);
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            transition: 0.3s;
+        }
+        .sort-select:focus { border-color: var(--primary-purple); }
+
+        /* ===== PRODUCT GRID ===== */
+        .shop-section {
+            padding: 50px 5% 100px;
+            background: var(--white);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid #eee;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(108,92,231,0.1);
+            border-color: transparent;
+        }
+
+        .product-card:hover .product-actions { opacity: 1; transform: translateY(0); }
+
+        .product-img-wrap {
+            position: relative;
+            background: var(--light-gray);
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .mini-book {
+            width: 110px;
+            height: 160px;
+            border-radius: 2px 8px 8px 2px;
+            border-left: 5px solid var(--gold-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 14px 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: -4px 4px 0 rgba(0,0,0,0.15), 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .mini-book { transform: rotate(-3deg) scale(1.06); }
+
+        .mini-book-label { font-size: 7px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-accent); opacity: 0.8; }
+        .mini-book-title { font-size: 11px; font-weight: 800; line-height: 1.3; color: var(--white); }
+        .mini-book-author { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.5); }
+
+        .book-dark   { background: linear-gradient(145deg, #1a1208, #2e2010); }
+        .book-navy   { background: linear-gradient(145deg, #0d1b2a, #1b2d44); border-left-color: #4834d4; }
+        .book-teal   { background: linear-gradient(145deg, #0a2020, #102e2e); border-left-color: #00a896; }
+        .book-plum   { background: linear-gradient(145deg, #1a0a2e, #2a1044); border-left-color: #6c5ce7; }
+        .book-green { background: linear-gradient(145deg, #0a1f0a, #102e10); border-left-color: #2d8a2d; }
+        .book-red   { background: linear-gradient(145deg, #1f0a0a, #2e1010); border-left-color: #c53030; }
+
+        .mini-cd {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 28%, #2e2e2e 28%, #888 45%, #ccc 46%, #eee 47%, #ccc 55%, #aaa 56%, #555 65%, #333 66%, #1a1a1a 80%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .mini-cd { transform: rotate(20deg); }
+
+        .mini-cd-label {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #1a1208, #2e2010);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7px;
+            font-weight: 700;
+            color: var(--gold-accent);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .mini-tshirt {
+            width: 120px;
+            height: 130px;
+            position: relative;
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover .mini-tshirt { transform: scale(1.08); }
+        .mini-tshirt svg { width: 100%; height: 100%; }
+
+        .product-badge {
+            position: absolute;
+            top: 14px; left: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 100px;
+            z-index: 2;
+        }
+
+        .badge-new      { background: var(--teal-accent); color: white; }
+        .badge-popular  { background: var(--gold-accent); color: #0a0a0a; }
+        .badge-bundle   { background: var(--primary-purple); color: white; }
+        .badge-digital  { background: #1a1a1a; color: rgba(255,255,255,0.8); }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #eee;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            color: #ccc;
+        }
+        .wishlist-btn .material-icons-round { font-size: 16px; }
+        .wishlist-btn:hover { border-color: #e74c3c; color: #e74c3c; transform: scale(1.1); }
+        .wishlist-btn.active { background: #fff0f0; border-color: #e74c3c; color: #e74c3c; }
+
+        .product-actions {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: var(--primary-purple);
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .btn-quick-add {
+            flex: 1;
+            background: var(--white);
+            color: var(--primary-purple);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-quick-add:hover { background: var(--light-gray); }
+
+        .btn-quick-view {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-quick-view:hover { background: rgba(255,255,255,0.25); }
+
+        .product-info { padding: 20px 20px 22px; }
+
+        .product-category {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .product-author {
+            font-size: 13px;
+            font-weight: 400;
+            color: #888;
+            margin-bottom: 14px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-purple);
+            letter-spacing: -0.5px;
+        }
+
+        .product-price-old {
+            font-size: 13px;
+            font-weight: 400;
+            color: #bbb;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--gold-accent);
+        }
+
+        .product-rating span { color: #888; font-weight: 500; }
+
+        /* ===== CATEGORIES STRIP ===== */
+        .categories-section {
+            padding: 80px 5%;
+            background: var(--light-gray);
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .categories-header p {
+            font-size: 16px;
+            color: #555;
+            max-width: 480px;
+            margin: 10px auto 0;
+            line-height: 1.8;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .cat-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 36px 28px;
+            border: 1px solid #eee;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cat-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--teal-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .cat-card:hover::before { transform: scaleX(1); }
+        .cat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(108,92,231,0.08); }
+
+        .cat-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+        }
+
+        .cat-icon .material-icons-round { font-size: 28px; }
+
+        .cat-icon-purple { background: rgba(108,92,231,0.08); color: var(--primary-purple); }
+        .cat-icon-gold   { background: rgba(197,160,89,0.1);  color: var(--gold-dark); }
+        .cat-icon-teal   { background: rgba(0,168,150,0.08);  color: var(--teal-dark); }
+        .cat-icon-dark   { background: rgba(0,0,0,0.06);      color: #333; }
+
+        .cat-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .cat-count {
+            font-size: 13px;
+            font-weight: 400;
+            color: #888;
+        }
+
+        /* ===== BESTSELLERS ===== */
+        .bestsellers-section {
+            padding: 100px 5%;
+            background: var(--white);
+        }
+
+        .bestsellers-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: end;
+            margin-bottom: 60px;
+        }
+
+        .bestsellers-header-right p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .bestsellers-header-right a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            text-decoration: none;
+            margin-top: 16px;
+            transition: 0.3s;
+        }
+
+        .bestsellers-header-right a:hover { gap: 14px; }
+
+        .bestsellers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .bestseller-row {
+            display: grid;
+            grid-template-columns: 40px 80px 1fr auto;
+            gap: 20px;
+            align-items: center;
+            padding: 20px 10px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+            border-radius: 6px;
+        }
+
+        .bestseller-row:hover { background: var(--light-gray); }
+
+        .bestseller-rank {
+            font-size: 22px;
+            font-weight: 800;
+            color: #eee;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .bestseller-rank.top { color: var(--gold-accent); }
+
+        .bestseller-thumb {
+            width: 80px;
+            height: 60px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .bs-mini-book {
+            width: 44px;
+            height: 56px;
+            border-radius: 1px 5px 5px 1px;
+            border-left: 4px solid var(--gold-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: -2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .bestseller-info { display: block; }
+        .bestseller-name  { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+        .bestseller-meta  { font-size: 13px; font-weight: 400; color: #888; }
+        .bestseller-meta span { color: var(--teal-accent); font-weight: 600; margin-left: 8px; }
+
+        .bestseller-buy {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .bestseller-price { font-size: 17px; font-weight: 800; color: var(--primary-purple); }
+
+        .btn-bs-add {
+            background: var(--teal-accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-bs-add:hover { background: var(--teal-dark); }
+
+        /* ===== PROMO STRIP ===== */
+        .promo-strip {
+            background: var(--white);
+            padding: 80px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .promo-text .section-label { color: var(--gold-accent); }
+
+        .promo-title {
+            font-size: 36px;
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+        .promo-title em { font-style: normal; color: var(--primary-purple); }
+
+        .promo-desc {
+            font-size: 16px;
+            font-weight: 400;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+
+        .promo-features {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+
+        .promo-feat {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .promo-feat-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--teal-accent);
+            flex-shrink: 0;
+        }
+
+        .btn-promo {
+            display: inline-block;
+            background: var(--teal-accent);
+            color: var(--white);
+            padding: 14px 36px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-promo:hover { background: var(--teal-dark); transform: scale(1.04); }
+
+        .promo-testimonial-side {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .testimonial-card {
+            background: var(--light-gray);
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 28px 30px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .testimonial-card:hover { background: var(--white); box-shadow: 0 12px 40px rgba(108,92,231,0.08); }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px; left: 20px;
+            font-size: 60px;
+            color: var(--gold-accent);
+            opacity: 0.25;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            font-weight: 400;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .testimonial-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--primary-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .testimonial-name { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+        .testimonial-role { font-size: 11px; font-weight: 400; color: #aaa; margin-top: 2px; }
+        .testimonial-stars { color: var(--gold-accent); font-size: 12px; margin-bottom: 10px; }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter-section {
+            padding: 80px 5%;
+            background: var(--light-gray);
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .newsletter-inner { max-width: 560px; margin: 0 auto; }
+
+        .newsletter-section h2 {
+            font-size: 30px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
+
+        .newsletter-section h2 em { font-style: normal; color: var(--primary-purple); }
+
+        .newsletter-section p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+
+        .newsletter-form { display: flex; gap: 12px; }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .newsletter-input:focus { border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(108,92,231,0.08); }
+        .newsletter-input::placeholder { color: #aaa; }
+
+        .btn-newsletter {
+            background: var(--teal-accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 14px 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-newsletter:hover { background: var(--teal-dark); }
+
+        .newsletter-note { font-size: 12px; color: #aaa; margin-top: 14px; }
+
+        /* ===== CART DRAWER ===== */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0; right: -420px;
+            width: 400px;
+            height: 100vh;
+            background: var(--white);
+            z-index: 2001;
+            transition: right 0.4s cubic-bezier(0.17, 0.55, 0.55, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 50px rgba(0,0,0,0.2);
+        }
+
+        .cart-drawer.open { right: 0; }
+
+        .cart-drawer-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-drawer-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-drawer-title .material-icons-round { font-size: 22px; color: var(--primary-purple); }
+
+        .cart-close {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            color: #555;
+        }
+        .cart-close .material-icons-round { font-size: 18px; }
+        .cart-close:hover { background: #eee; }
+
+        .cart-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 28px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .cart-empty-icon {
+            margin-bottom: 16px;
+            opacity: 0.3;
+            color: #555;
+        }
+
+        .cart-empty-icon .material-icons-round { font-size: 56px; }
+        .cart-empty p { font-size: 15px; font-weight: 500; }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            gap: 14px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .cart-item-thumb {
+            width: 60px; height: 60px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-gray);
+            overflow: hidden;
+        }
+
+        .cart-item-name { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+        .cart-item-meta { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 26px; height: 26px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background: var(--white);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .qty-btn:hover { border-color: var(--primary-purple); color: var(--primary-purple); }
+
+        .qty-num { font-size: 14px; font-weight: 700; color: #1a1a1a; min-width: 16px; text-align: center; }
+
+        .cart-item-price { font-size: 15px; font-weight: 700; color: var(--primary-purple); }
+
+        .cart-item-remove {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-left: 4px;
+        }
+        .cart-item-remove .material-icons-round { font-size: 18px; }
+        .cart-item-remove:hover { color: #e74c3c; }
+
+        .cart-drawer-footer {
+            padding: 24px 28px;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .cart-total-row.grand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .cart-total-row.grand span:last-child { color: var(--primary-purple); }
+
+        .btn-checkout {
+            width: 100%;
+            background: var(--teal-accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+        .btn-checkout:hover { background: var(--teal-dark); }
+
+        .btn-continue {
+            width: 100%;
+            background: transparent;
+            color: #888;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-continue:hover { border-color: var(--primary-purple); color: var(--primary-purple); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--black-bg);
+            color: #888;
+            padding: 60px 10% 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            font-size: 14px;
+        }
+        footer h4 { color: var(--white); margin-bottom: 20px; font-weight: 600; }
+        .footer-links { list-style: none; line-height: 2.5; }
+        .sub-group { display: flex; margin-top: 15px; }
+        .sub-group input {
+            padding: 10px;
+            border: 1px solid #333;
+            background: #111;
+            color: white;
+            width: 70%;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .sub-group button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+@media print {
+    body {
+        /* Force browser to render all UI background colors and images exactly as they look online */
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    @page {
+        /* Removes the annoying margin that shrinks your design, and hides default browser headers/footers */
+        size: auto;
+        margin: 0mm;
+    }
+}
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--primary-purple);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(108,92,231,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast-icon { color: var(--teal-accent); display: flex; align-items: center; }
+        .toast-icon .material-icons-round { font-size: 18px; }
+
+        /* ===== RESPONSIVE ===== */
+        /* ===== TABLET ===== */
+        /* ===== TABLET (1100px) ===== */
+        @media (max-width: 1100px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* ===== TABLET (900px) ===== */
+        @media (max-width: 900px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .featured-banner { grid-template-columns: 1fr; gap: 0; padding: 60px 5%; }
+            .featured-book-side { display: none; }
+            .featured-text-side { padding: 0; }
+            .featured-title { font-size: 28px; }
+            .featured-price { font-size: 28px; }
+            .promo-strip { grid-template-columns: 1fr; text-align: center; gap: 28px; padding: 60px 5%; }
+            .promo-actions { justify-content: center; }
+            .bestsellers-section { padding: 60px 5%; }
+            .bestsellers-header { grid-template-columns: 1fr; gap: 20px; }
+            .bestseller-row { grid-template-columns: 32px 64px 1fr auto; gap: 12px; }
+            footer { grid-template-columns: 1fr 1fr; padding: 40px 5% 24px; gap: 28px; }
+            .cart-drawer { width: 90%; right: -90%; }
+            .shop-toolbar { flex-wrap: wrap; gap: 12px; padding: 18px 5%; }
+            .filter-tabs { gap: 6px; flex-wrap: wrap; }
+            .filter-tab { font-size: 11px; padding: 7px 14px; }
+            .shop-section { padding: 60px 5%; }
+        }
+
+        /* ===== MOBILE (600px) ===== */
+        @media (max-width: 600px) {
+            /* Hero */
+            .store-hero { height: auto; min-height: 0; padding: 56px 5% 48px; }
+            .store-hero-content { padding: 0; }
+            .store-hero-content h1 { font-size: 22px; line-height: 1.3; }
+            .hero-eyebrow { font-size: 9px; letter-spacing: 3px; margin-bottom: 14px; }
+            .store-hero-content p { font-size: 13px; line-height: 1.7; }
+            .hero-divider-line { width: 36px; }
+
+            /* Breadcrumb */
+            .breadcrumb { padding: 10px 5%; font-size: 11px; }
+
+            /* Featured banner */
+            .featured-banner { padding: 40px 5%; }
+            .featured-tag { font-size: 9px; padding: 4px 12px; margin-bottom: 16px; }
+            .featured-title { font-size: 22px; margin-bottom: 14px; }
+            .featured-desc { font-size: 13px; line-height: 1.7; margin-bottom: 24px; }
+            .featured-meta { flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
+            .featured-price { font-size: 26px; }
+            .featured-price-old { font-size: 15px; }
+            .featured-actions { flex-direction: column; gap: 10px; align-items: stretch; }
+            .btn-featured-buy, .btn-featured-secondary { width: 100%; justify-content: center; padding: 14px 24px; font-size: 14px; }
+
+            /* Shop toolbar */
+            .shop-toolbar { padding: 14px 5%; flex-direction: column; align-items: stretch; gap: 12px; border-bottom: 1px solid #eee; }
+            .filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .filter-tabs::-webkit-scrollbar { display: none; }
+            .filter-tab { font-size: 11px; padding: 7px 16px; white-space: nowrap; flex-shrink: 0; }
+            .toolbar-right { display: flex; justify-content: space-between; align-items: center; }
+            .product-count { font-size: 12px; }
+
+            /* Product grid */
+            .shop-section { padding: 32px 5% 50px; }
+            .product-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+            .product-img-wrap { height: 160px; }
+            .mini-book { width: 80px; height: 116px; }
+            .mini-book-title { font-size: 9px; }
+            .product-info { padding: 14px 14px 16px; }
+            .product-name { font-size: 12px; line-height: 1.4; margin-bottom: 4px; }
+            .product-author { font-size: 10px; margin-bottom: 10px; }
+            .product-price { font-size: 14px; }
+            .product-price-old { font-size: 11px; }
+            .product-rating { font-size: 10px; }
+            .product-footer { margin-top: 8px; }
+            .product-badge { font-size: 8px; padding: 3px 8px; top: 10px; left: 10px; }
+            .wishlist-btn { top: 8px; right: 8px; width: 28px; height: 28px; }
+            .product-actions { padding: 0 10px 10px; }
+            .btn-quick-add { font-size: 10px; padding: 8px 10px; border-radius: 4px; }
+            .btn-quick-view { font-size: 10px; padding: 8px 10px; }
+
+            /* Bestsellers */
+            .bestsellers-section { padding: 44px 5%; }
+            .bestsellers-header { margin-bottom: 30px; }
+            .bestsellers-header h2 { font-size: 24px; }
+            .bestseller-row { grid-template-columns: 26px 52px 1fr; gap: 10px; padding: 12px 0; }
+            .bestseller-buy { display: none; }
+            .bestseller-rank { font-size: 12px; }
+            .bs-cover { width: 52px; height: 68px; }
+            .bs-title { font-size: 12px; line-height: 1.4; }
+            .bs-author { font-size: 10px; }
+            .bs-price { font-size: 13px; }
+            .bs-tag { font-size: 9px; padding: 2px 8px; }
+
+            /* Promo strip */
+            .promo-strip { padding: 44px 5%; gap: 20px; }
+            .promo-label { font-size: 9px; }
+            .promo-title { font-size: 22px; letter-spacing: -0.5px; }
+            .promo-desc { font-size: 13px; line-height: 1.7; }
+            .promo-actions { flex-direction: column; gap: 10px; align-items: stretch; }
+            .promo-actions a, .promo-actions button { width: 100%; justify-content: center; text-align: center; }
+
+            /* Newsletter */
+            .newsletter-section { padding: 44px 5%; }
+            .newsletter-title { font-size: 22px; margin-bottom: 10px; }
+            .newsletter-sub { font-size: 13px; margin-bottom: 28px; }
+            .newsletter-form { flex-direction: column; gap: 10px; }
+            .newsletter-input { width: 100%; border-radius: 6px; padding: 13px 16px; font-size: 14px; }
+            .newsletter-btn { width: 100%; border-radius: 6px; justify-content: center; padding: 14px; }
+
+            /* Cart drawer */
+            .cart-drawer { width: 100%; right: -100%; }
+            .cart-drawer-header { padding: 16px 20px; }
+            .cart-drawer-title { font-size: 14px; }
+            .cart-drawer-body { padding: 16px 20px; }
+            .cart-item { gap: 12px; }
+            .cart-item-thumb { width: 52px; }
+            .cart-item-name { font-size: 13px; }
+            .cart-item-meta { font-size: 11px; }
+            .cart-drawer-footer { padding: 16px 20px; }
+            .cart-total-row { font-size: 13px; }
+            .cart-total-row.grand { font-size: 16px; }
+            .btn-checkout { font-size: 14px; padding: 14px; }
+            .btn-continue { font-size: 12px; }
+
+            /* Footer */
+            footer { grid-template-columns: 1fr; gap: 28px; padding: 40px 5% 30px; }
+            .sub-group { flex-direction: column; gap: 8px; }
+            .sub-group input { width: 100%; border-radius: 4px; }
+            .sub-group button { width: 100%; padding: 10px; border-radius: 4px; }
+        }
+    </style>
+<style>
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    @page {
+      size: auto;
+      margin: 0mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="header-main">
+            <div class="header-logo-center">
+                <div class="header-logo-emblem"></div>
+                <span class="header-logo-name">Kingdom Alignment Global</span>
+            </div>
+
+            <ul class="header-nav-right">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about_us.html">About</a></li>
+                <li><a href="contact_us.html">Contact</a></li>
+                <li><a href="give.html">Give</a></li>
+                <li><a href="store.html" class="active">Store</a></li>
+                <li><a href="event.html">Events</a></li>
+                <li>
+                    <a href="#" style="padding-right:0;" onclick="event.preventDefault(); openCart();">
+                        <div class="header-icon-btn" style="display:inline-flex; position:relative; cursor:pointer;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                            <span id="cartBadge" style="position:absolute;top:-9px;right:-9px;background:var(--teal-accent);color:white;font-size:9px;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;">0</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+        </div>
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="about_us.html">About</a>
+            <a href="contact_us.html">Contact</a>
+            <a href="give.html">Give</a>
+            <a href="store.html" class="active">Store</a>
+            <a href="event.html">Events</a>
+        </nav>
+    </header>
+
+    <!-- ===== FEATURED BANNER ===== -->
+    <section class="featured-banner">
+        <div class="featured-text-side reveal-left">
+            <span class="featured-tag">
+                <span class="material-icons-round">star</span>
+                Featured Release
+            </span>
+            <h2 class="featured-title">Carriers of the <em>Kingdom</em></h2>
+            <p class="featured-desc">An in-depth journey into understanding your identity as a vessel of God's glory. This book will challenge you, change you, and commission you into greater purpose.</p>
+            <div class="featured-meta">
+                <span class="featured-price">GHS 80</span>
+                <span class="featured-price-old">GHS 120</span>
+            </div>
+            <div class="featured-actions">
+                <button class="btn-featured-buy" onclick="addToCart('Carriers of the Kingdom', 80)">
+                    <span class="material-icons-round">shopping_cart</span>
+                    Add to Cart
+                </button>
+                <button class="btn-featured-preview">Preview Chapter</button>
+            </div>
+        </div>
+
+        <div class="featured-book-side reveal-right">
+            <div class="book-mockup">
+                <div class="book-badge">Best<br>Seller</div>
+                <div class="book-cover book-dark">
+                    <div>
+                        <div class="book-cover-label">Kingdom Alignment Global</div>
+                        <div class="book-cover-title">Carriers of the Kingdom</div>
+                        <div class="book-cover-subtitle">Walking in Your God-Given Identity &amp; Authority</div>
+                    </div>
+                    <div class="book-cover-cross">
+                        <span class="material-icons-round">add</span>
+                    </div>
+                    <div class="book-cover-author">by B.P.K.A</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SHOP TOOLBAR ===== -->
+    <div class="shop-toolbar">
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterProducts(this, 'all')">
+                <span class="material-icons-round">apps</span> All Products
+            </button>
+            <button class="filter-tab" onclick="filterProducts(this, 'books')">
+                <span class="material-icons-round">menu_book</span> Books
+            </button>
+            <button class="filter-tab" onclick="filterProducts(this, 'audio')">
+                <span class="material-icons-round">mic</span> Audio Teachings
+            </button>
+            <button class="filter-tab" onclick="filterProducts(this, 'devotionals')">
+                <span class="material-icons-round">auto_stories</span> Devotionals
+            </button>
+            <button class="filter-tab" onclick="filterProducts(this, 'apparel')">
+                <span class="material-icons-round">checkroom</span> Apparel
+            </button>
+        </div>
+        <div class="sort-wrap">
+            <span class="sort-label">Sort by:</span>
+            <select class="sort-select">
+                <option>Newest First</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Best Selling</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ===== PRODUCT GRID ===== -->
+    <section class="shop-section">
+        <div class="product-grid" id="productGrid">
+
+            <div class="product-card reveal-up" data-category="books" style="transition-delay:0s">
+                <div class="product-img-wrap">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-book book-dark">
+                        <div class="mini-book-label">KBG</div>
+                        <div class="mini-book-title">Carriers of the Kingdom</div>
+                        <div class="mini-book-author">KBG</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Carriers of the Kingdom', 80)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Books</div>
+                    <div class="product-name">Carriers of the Kingdom</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div>
+                            <span class="product-price">GHS 80</span>
+                            <span class="product-price-old">GHS 120</span>
+                        </div>
+                        <div class="product-rating">★★★★★ <span>(48)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="books" style="transition-delay:0.05s">
+                <div class="product-img-wrap">
+                    <span class="product-badge badge-popular">Popular</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-book book-plum">
+                        <div class="mini-book-label">KBG</div>
+                        <div class="mini-book-title">The Praying Church</div>
+                        <div class="mini-book-author">KBG</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('The Praying Church', 65)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Books</div>
+                    <div class="product-name">The Praying Church</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 65</span></div>
+                        <div class="product-rating">★★★★★ <span>(62)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="books" style="transition-delay:0.1s">
+                <div class="product-img-wrap">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-book book-navy">
+                        <div class="mini-book-label">KBG</div>
+                        <div class="mini-book-title">Grace to Reign</div>
+                        <div class="mini-book-author">KBG</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Grace to Reign', 55)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Books</div>
+                    <div class="product-name">Grace to Reign</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 55</span></div>
+                        <div class="product-rating">★★★★☆ <span>(34)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="books" style="transition-delay:0.15s">
+                <div class="product-img-wrap">
+                    <span class="product-badge badge-digital">Digital</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-book book-teal">
+                        <div class="mini-book-label">KBG</div>
+                        <div class="mini-book-title">Overflow: A 30-Day Devotional</div>
+                        <div class="mini-book-author">KBG</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Overflow Devotional', 30)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Devotionals</div>
+                    <div class="product-name">Overflow: A 30-Day Devotional</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 30</span></div>
+                        <div class="product-rating">★★★★★ <span>(91)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="audio" style="transition-delay:0.2s">
+                <div class="product-img-wrap" style="background:#1a1030;">
+                    <span class="product-badge badge-popular">Popular</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-cd">
+                        <div class="mini-cd-label">KBG<br>Audio</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Faith That Moves Series', 90)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Audio Teachings</div>
+                    <div class="product-name">Faith That Moves — 12-Part Series</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 90</span></div>
+                        <div class="product-rating">★★★★★ <span>(57)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="audio" style="transition-delay:0.25s">
+                <div class="product-img-wrap" style="background:#0d1030;">
+                    <span class="product-badge badge-digital">Digital</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-cd">
+                        <div class="mini-cd-label" style="background:rgba(108,92,231,0.8);">KBG<br>Word</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Prophetic Foundations', 70)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Audio Teachings</div>
+                    <div class="product-name">Prophetic Foundations — 8-Part Series</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 70</span></div>
+                        <div class="product-rating">★★★★☆ <span>(29)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="devotionals" style="transition-delay:0.3s">
+                <div class="product-img-wrap">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-book book-green">
+                        <div class="mini-book-label">KBG</div>
+                        <div class="mini-book-title">Rooted: 21 Days in the Word</div>
+                        <div class="mini-book-author">KBG</div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Rooted Devotional', 35)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Devotionals</div>
+                    <div class="product-name">Rooted: 21 Days in the Word</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 35</span></div>
+                        <div class="product-rating">★★★★★ <span>(44)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="apparel" style="transition-delay:0.35s">
+                <div class="product-img-wrap" style="background:#f0f0f0;">
+                    <span class="product-badge badge-bundle">Bundle</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <div class="mini-tshirt">
+                        <svg viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30 10 L0 40 L20 50 L20 120 L100 120 L100 50 L120 40 L90 10 L75 25 Q60 35 45 25 Z" fill="#1a1a40"/>
+                            <text x="60" y="80" text-anchor="middle" font-size="8" fill="#c5a059" font-weight="700" font-family="Montserrat, sans-serif">KINGDOM</text>
+                            <text x="60" y="92" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.5)" font-family="Montserrat, sans-serif">BEARERS</text>
+                        </svg>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('Kingdom Alignment Global Tee', 120)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Apparel</div>
+                    <div class="product-name">Kingdom Alignment Global Classic Tee</div>
+                    <div class="product-author">Limited Edition</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 120</span></div>
+                        <div class="product-rating">★★★★☆ <span>(18)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="apparel" style="transition-delay:0.4s">
+                <div class="product-img-wrap" style="background:#f5f0ff;">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <img src="images/mc_cera.png" alt="KAG Ceramic Mug" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('KAG Ceramic Mug', 85)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Apparel</div>
+                    <div class="product-name">KAG Ceramic Mug</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 85</span></div>
+                        <div class="product-rating">★★★★★ <span>(0)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="apparel" style="transition-delay:0.45s">
+                <div class="product-img-wrap" style="background:#fff8ec;">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <img src="images/cap.png" alt="KAG Cap" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('KAG Cap', 75)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Apparel</div>
+                    <div class="product-name">KAG Cap</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 75</span></div>
+                        <div class="product-rating">★★★★★ <span>(0)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="apparel" style="transition-delay:0.5s">
+                <div class="product-img-wrap" style="background:#f0fdf4;">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <img src="images/tote_bag.png" alt="KAG Tote Bag" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('KAG Tote Bag', 65)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Apparel</div>
+                    <div class="product-name">KAG Tote Bag</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 65</span></div>
+                        <div class="product-rating">★★★★★ <span>(0)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card reveal-up" data-category="apparel" style="transition-delay:0.55s">
+                <div class="product-img-wrap" style="background:#f0ecff;">
+                    <span class="product-badge badge-new">New</span>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                        <span class="material-icons-round">favorite_border</span>
+                    </button>
+                    <img src="images/hoodie.png" alt="KAG Hoodie" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="product-actions">
+                        <button class="btn-quick-add" onclick="addToCart('KAG Hoodie', 180)">+ Add to Cart</button>
+                        <button class="btn-quick-view">View</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Apparel</div>
+                    <div class="product-name">KAG Hoodie</div>
+                    <div class="product-author">Kingdom Alignment Global</div>
+                    <div class="product-footer">
+                        <div><span class="product-price">GHS 180</span></div>
+                        <div class="product-rating">★★★★★ <span>(0)</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+
+    <!-- ===== BESTSELLERS ===== -->
+    <section class="bestsellers-section">
+        <div class="bestsellers-header">
+            <div class="reveal-left">
+                <span class="section-label">Top Picks</span>
+                <h2 class="section-title">Our <em>Bestselling</em> Resources</h2>
+                <div class="teal-rule"></div>
+            </div>
+            <div class="bestsellers-header-right reveal-right">
+                <p>Resources that have aligned, activated, and released Kingdom Aligners across the globe. Rooted in the Word. Built for purpose.</p>
+                <a href="#">
+                    View All Products
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="bestsellers-list reveal-up">
+            <div class="bestseller-row">
+                <div class="bestseller-rank top">1</div>
+                <div class="bestseller-thumb">
+                    <div class="bs-mini-book book-dark"></div>
+                </div>
+                <div class="bestseller-info">
+                    <div class="bestseller-name">Carriers of the Kingdom</div>
+                    <div class="bestseller-meta">Book · Kingdom Alignment Global <span>★★★★★</span></div>
+                </div>
+                <div class="bestseller-buy">
+                    <div class="bestseller-price">GHS 80</div>
+                    <button class="btn-bs-add" onclick="addToCart('Carriers of the Kingdom', 80)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="bestseller-row">
+                <div class="bestseller-rank top">2</div>
+                <div class="bestseller-thumb">
+                    <div class="bs-mini-book book-plum"></div>
+                </div>
+                <div class="bestseller-info">
+                    <div class="bestseller-name">The Praying Church</div>
+                    <div class="bestseller-meta">Book · Kingdom Alignment Global <span>★★★★★</span></div>
+                </div>
+                <div class="bestseller-buy">
+                    <div class="bestseller-price">GHS 65</div>
+                    <button class="btn-bs-add" onclick="addToCart('The Praying Church', 65)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="bestseller-row">
+                <div class="bestseller-rank top">3</div>
+                <div class="bestseller-thumb">
+                    <div class="bs-mini-book" style="background:linear-gradient(145deg,#0a0a0a,#1a1a1a); border-left:4px solid #00a896;"></div>
+                </div>
+                <div class="bestseller-info">
+                    <div class="bestseller-name">Faith That Moves — 12-Part Series</div>
+                    <div class="bestseller-meta">Audio Teaching · Kingdom Alignment Global <span>★★★★★</span></div>
+                </div>
+                <div class="bestseller-buy">
+                    <div class="bestseller-price">GHS 90</div>
+                    <button class="btn-bs-add" onclick="addToCart('Faith That Moves Series', 90)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="bestseller-row">
+                <div class="bestseller-rank">4</div>
+                <div class="bestseller-thumb">
+                    <div class="bs-mini-book book-teal"></div>
+                </div>
+                <div class="bestseller-info">
+                    <div class="bestseller-name">Overflow: A 30-Day Devotional</div>
+                    <div class="bestseller-meta">Devotional · Kingdom Alignment Global <span>★★★★★</span></div>
+                </div>
+                <div class="bestseller-buy">
+                    <div class="bestseller-price">GHS 30</div>
+                    <button class="btn-bs-add" onclick="addToCart('Overflow Devotional', 30)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="bestseller-row">
+                <div class="bestseller-rank">5</div>
+                <div class="bestseller-thumb">
+                    <div class="bs-mini-book book-navy"></div>
+                </div>
+                <div class="bestseller-info">
+                    <div class="bestseller-name">Grace to Reign</div>
+                    <div class="bestseller-meta">Book · Kingdom Alignment Global <span>★★★★☆</span></div>
+                </div>
+                <div class="bestseller-buy">
+                    <div class="bestseller-price">GHS 55</div>
+                    <button class="btn-bs-add" onclick="addToCart('Grace to Reign', 55)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROMO STRIP ===== -->
+    <section class="promo-strip">
+        <div class="promo-text reveal-left">
+            <span class="section-label">Why Shop With Us</span>
+            <h2 class="promo-title">Resources Built for the <em>Kingdom Journey</em></h2>
+            <p class="promo-desc">Every resource here is designed to align you, activate your gifts, and equip you to walk in your Kingdom assignment.</p>
+            <div class="promo-features">
+                <div class="promo-feat"><div class="promo-feat-dot"></div>All materials rooted in scripture and Kingdom principles</div>
+                <div class="promo-feat"><div class="promo-feat-dot"></div>Digital downloads available instantly after purchase</div>
+                <div class="promo-feat"><div class="promo-feat-dot"></div>Physical books delivered within Ghana (3–5 days)</div>
+                <div class="promo-feat"><div class="promo-feat-dot"></div>Bulk orders available for church groups and ministries</div>
+                <div class="promo-feat"><div class="promo-feat-dot"></div>Secure checkout with mobile money &amp; bank transfer</div>
+            </div>
+            <a href="#productGrid" class="btn-promo">Shop All Resources</a>
+        </div>
+
+        <div class="promo-testimonial-side reveal-right">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Carriers of the Kingdom completely transformed how I see my role in God's plan. I have bought copies for my entire cell group. A must-read."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AK</div>
+                    <div>
+                        <div class="testimonial-name">Dorothy</div>
+                        <div class="testimonial-role">Oregon, USA</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"The Faith That Moves audio series is exactly what I needed during a dry season. I listen on my commute every morning. Life-changing content."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar" style="background:var(--teal-accent);">EM</div>
+                    <div>
+                        <div class="testimonial-name">Elsie.</div>
+                        <div class="testimonial-role">Accra, Ghana</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Overflow devotional helped me build a consistent morning routine with God. Simple, powerful, practical. I have already reordered my second copy."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar" style="background:var(--gold-dark);">SN</div>
+                    <div>
+                        <div class="testimonial-name">Effibah</div>
+                        <div class="testimonial-role">Milton Keynes, UK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="newsletter-section">
+        <div class="newsletter-inner reveal-up">
+            <span class="section-label" style="display:block; text-align:center;">Stay Connected</span>
+            <h2>Get New Releases <em>First</em></h2>
+            <p>Subscribe to be the first to know about new books, teachings, and exclusive discounts from Kingdom Alignment Global.</p>
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address…">
+                <button class="btn-newsletter">Subscribe</button>
+            </div>
+            <p class="newsletter-note">No spam, ever. Unsubscribe at any time.</p>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div>
+            <h4>Kingdom Alignment Global</h4>
+            <p>Transforming lives through worship and service.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+                <li>About Us</li><li>Shop Now</li><li>Contact Us</li><li>Give Now</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Stay Updated</h4>
+            <ul class="footer-links">
+                <li>Newsletter Signup</li><li>Latest News</li><li>New Arrivals</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Subscribe</h4>
+            <form class="sub-group" onsubmit="handleNewsletterSubmit(event)">
+                <input type="email" name="email" placeholder="Email Address" required>
+                <button type="submit">Join</button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- ===== CART DRAWER ===== -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <span class="cart-drawer-title">
+                <span class="material-icons-round">shopping_cart</span>
+                Your Cart
+            </span>
+            <button class="cart-close" onclick="closeCart()">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+        <div class="cart-drawer-body" id="cartBody">
+            <div class="cart-empty" id="cartEmpty">
+                <div class="cart-empty-icon">
+                    <span class="material-icons-round">shopping_cart</span>
+                </div>
+                <p>Your cart is empty.<br>Add some Kingdom resources!</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal">GHS 0</span></div>
+            <div class="cart-total-row"><span>Shipping</span><span>Calculated at checkout</span></div>
+            <div class="cart-total-row grand"><span>Total</span><span id="cartTotal">GHS 0</span></div>
+            <button class="btn-checkout">Proceed to Checkout</button>
+            <button class="btn-continue" onclick="closeCart()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">
+            <span class="material-icons-round">check_circle</span>
+        </span>
+        <span id="toastMsg">Item added to cart!</span>
+    </div>
+
+    <script>
+        // ---- Scroll Reveal ----
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-fade')
+            .forEach(el => observer.observe(el));
+
+        // ---- Cart State ----
+        let cart = [];
+        let cartCount = 0;
+
+        function saveCart() {
+            try { localStorage.setItem('kag_cart', JSON.stringify(cart)); } catch(e) {}
+        }
+
+        function loadCart() {
+            try {
+                const saved = localStorage.getItem('kag_cart');
+                if (saved) {
+                    cart = JSON.parse(saved);
+                    cartCount = cart.reduce((s, i) => s + i.qty, 0);
+                    document.getElementById('cartBadge').textContent = cartCount;
+                    renderCart();
+                }
+            } catch(e) { cart = []; cartCount = 0; }
+        }
+
+        function addToCart(name, price) {
+            const existing = cart.find(i => i.name === name);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            cartCount++;
+            document.getElementById('cartBadge').textContent = cartCount;
+            saveCart();
+            renderCart();
+            showToast(`"${name}" added to cart`);
+        }
+
+        function renderCart() {
+            const body = document.getElementById('cartBody');
+            const footer = document.getElementById('cartFooter');
+            const empty = document.getElementById('cartEmpty');
+
+            if (cart.length === 0) {
+                empty.style.display = 'block';
+                footer.style.display = 'none';
+                return;
+            }
+
+            empty.style.display = 'none';
+            footer.style.display = 'block';
+
+            document.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price * item.qty;
+                const el = document.createElement('div');
+                el.className = 'cart-item';
+                el.innerHTML = `
+                    <div class="cart-item-thumb">
+                        <div style="width:40px;height:52px;border-radius:2px 4px 4px 2px;background:linear-gradient(145deg,#2a1f60,#4834d4);border-left:3px solid #c5a059;"></div>
+                    </div>
+                    <div>
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-meta">Kingdom Alignment Global</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+                            <span class="qty-num">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                        <span class="cart-item-price">GHS ${item.price * item.qty}</span>
+                        <span class="cart-item-remove" onclick="removeItem(${idx})">
+                            <span class="material-icons-round">close</span>
+                        </span>
+                    </div>
+                `;
+                body.insertBefore(el, empty);
+            });
+
+            document.getElementById('cartSubtotal').textContent = `GHS ${total}`;
+            document.getElementById('cartTotal').textContent = `GHS ${total}`;
+        }
+
+        function changeQty(idx, delta) {
+            cart[idx].qty += delta;
+            cartCount += delta;
+            if (cart[idx].qty <= 0) {
+                cartCount -= (delta * -1) + cart[idx].qty;
+                cart.splice(idx, 1);
+            }
+            cartCount = Math.max(0, cartCount);
+            document.getElementById('cartBadge').textContent = cartCount;
+            saveCart();
+            renderCart();
+        }
+
+        function removeItem(idx) {
+            cartCount -= cart[idx].qty;
+            cartCount = Math.max(0, cartCount);
+            cart.splice(idx, 1);
+            document.getElementById('cartBadge').textContent = cartCount;
+            saveCart();
+            renderCart();
+        }
+
+        function openCart() {
+            document.getElementById('cartDrawer').classList.add('open');
+            document.getElementById('cartOverlay').classList.add('open');
+        }
+
+        function closeCart() {
+            document.getElementById('cartDrawer').classList.remove('open');
+            document.getElementById('cartOverlay').classList.remove('open');
+        }
+
+        // ---- Toast ----
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2800);
+        }
+
+        // ---- Wishlist ----
+        function toggleWishlist(btn) {
+            btn.classList.toggle('active');
+            const icon = btn.querySelector('.material-icons-round');
+            icon.textContent = btn.classList.contains('active') ? 'favorite' : 'favorite_border';
+        }
+
+        // ---- Filter ----
+        function filterProducts(btn, category) {
+            if (btn) {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            document.querySelectorAll('.product-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function scrollToShop() {
+            document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobileNav');
+            const btn = document.querySelector('.mobile-menu-btn');
+            nav.classList.toggle('open');
+            btn.textContent = nav.classList.contains('open') ? '✕' : '☰';
+        }
+
+        loadCart();
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            const form = e.target; const btn = form.querySelector('button');
+            btn.textContent = 'Sending…'; btn.disabled = true;
+            fetch('https://formspree.io/f/meepzwkr', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ email: form.email.value, _subject: 'New Newsletter Subscriber' })
+            }).then(r => r.json()).then(data => { if (data.ok) { form.reset(); showSubscribePopup(); } else { btn.textContent = 'Try Again'; btn.disabled = false; } })
+            .catch(() => { btn.textContent = 'Try Again'; btn.disabled = false; });
+        }
+        function showSubscribePopup() { const p = document.getElementById('subscribePopup'); p.style.display = 'flex'; setTimeout(closeSubscribePopup, 6000); }
+        function closeSubscribePopup() { document.getElementById('subscribePopup').style.display = 'none'; }
+    </script>
+
+    <div id="subscribePopup" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);">
+        <div style="background:#fff;border-radius:20px;padding:48px 40px;max-width:400px;width:90%;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.18);animation:popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);">
+            <style>@keyframes popIn{from{opacity:0;transform:scale(0.75)}to{opacity:1;transform:scale(1)}}</style>
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(197,160,89,0.1);border:1.5px solid #c5a059;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p style="font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c5a059;margin-bottom:10px;">You're In</p>
+            <h3 style="font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:12px;line-height:1.3;font-family:'Montserrat',sans-serif;">Thank You for <span style="color:#6c5ce7;">Subscribing!</span></h3>
+            <p style="font-size:14px;color:#666;line-height:1.8;margin-bottom:28px;font-family:'Montserrat',sans-serif;">You're now part of the Kingdom Alignment Global community. Watch your inbox for updates, teachings, and more.</p>
+            <button onclick="closeSubscribePopup()" style="background:#6c5ce7;color:white;border:none;padding:12px 32px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:'Montserrat',sans-serif;" onmouseover="this.style.background='#4834d4'" onmouseout="this.style.background='#6c5ce7'">Close</button>
+        </div>
+    </div>
+</body>
+</html>

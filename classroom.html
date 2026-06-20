@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom | Kingdom Alignment Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --purple: #6c5ce7; --deep-purple: #4834d4;
+            --gold: #c5a059; --gold-dark: #9c7a38;
+            --teal: #00a896; --teal-dark: #0d9488;
+            --bg: #09090f; --card: #111119; --border: rgba(255,255,255,0.07);
+            --white: #ffffff; --light-gray: #f8f8f8;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Montserrat',sans-serif; font-size:15px; line-height:1.6; color:#1a1a1a; background:#fff; overflow-x:hidden; }
+
+        /* ===== HEADER ===== */
+        header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; }
+        .header-main { display:flex; justify-content:space-between; align-items:center; padding:0 5%; min-height:70px; }
+        .header-nav-left,.header-nav-right { display:flex; list-style:none; gap:4px; align-items:center; }
+        .header-nav-left { justify-content:flex-start; }
+        .header-nav-right { justify-content:flex-end; }
+        .header-nav-left li a,.header-nav-right li a { color:rgba(26,26,26,0.8); text-decoration:none; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; padding:7px 14px; display:block; border-radius:100px; background:rgba(0,0,0,0.07); transition:background 0.25s,color 0.25s; }
+        .header-nav-left li a:hover,.header-nav-right li a:hover { background:rgba(0,0,0,0.14); color:#1a1a1a; }
+        .header-nav-left li a.active,.header-nav-right li a.active { color:var(--gold); background:rgba(0,0,0,0.1); }
+        .header-nav-right li a:has(.header-icon-btn) { background:transparent; padding:0; border-radius:0; }
+        .header-icon-btn { border:none; background:transparent; }
+        .header-logo-center { display:flex; align-items:center; gap:14px; padding:12px 0; }
+        .header-logo-emblem { display:inline-block; flex-shrink:0; width:42px; height:42px; border:1.5px solid var(--gold); transform:rotate(45deg); position:relative; }
+        .header-logo-emblem::before { content:'✦'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-45deg); color:var(--gold); font-size:16px; }
+        .header-logo-name { font-size:13px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:#1a1a1a; white-space:nowrap; }
+        .header-icon-btn { width:34px; height:34px; border:1px solid rgba(197,160,89,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s; color:rgba(26,26,26,0.6); font-size:14px; }
+        .header-icon-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(197,160,89,0.1); }
+        .mobile-menu-btn { display:none; background:none; border:1px solid rgba(197,160,89,0.4); color:rgba(26,26,26,0.85); width:40px; height:40px; border-radius:6px; font-size:20px; cursor:pointer; align-items:center; justify-content:center; transition:all 0.3s; flex-shrink:0; }
+        .mobile-menu-btn:hover { border-color:var(--gold); color:var(--gold); }
+        .mobile-nav { display:none; flex-direction:column; background:#0a0a0a; border-top:1px solid rgba(197,160,89,0.15); padding:6px 0 14px; }
+        .mobile-nav.open { display:flex; }
+        .mobile-nav a { color:rgba(255,255,255,0.7); text-decoration:none; font-size:12px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; padding:13px 5%; border-bottom:1px solid rgba(255,255,255,0.05); transition:color 0.25s; }
+        .mobile-nav a:hover { color:var(--gold); }
+        .mobile-nav a:last-child { border-bottom:none; }
+
+        /* ===== INSTRUCTOR LOGIN MODAL ===== */
+        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(6px); z-index:9000; display:none; align-items:center; justify-content:center; padding:20px; }
+        .modal-overlay.open { display:flex; }
+        .login-box { background:#fff; border-radius:16px; width:100%; max-width:420px; padding:40px; }
+        .login-logo { text-align:center; margin-bottom:28px; }
+        .login-logo div { width:56px; height:56px; border:2px solid var(--gold); transform:rotate(45deg); position:relative; margin:0 auto 12px; }
+        .login-logo div::before { content:'✦'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-45deg); color:var(--gold); font-size:18px; }
+        .login-title { font-size:20px; font-weight:800; color:#1a1a1a; text-align:center; margin-bottom:6px; }
+        .login-sub { font-size:13px; color:#888; text-align:center; margin-bottom:28px; }
+        .login-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#555; display:block; margin-bottom:8px; }
+        .login-input { width:100%; padding:13px 16px; border:1.5px solid #ddd; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:14px; color:#1a1a1a; outline:none; transition:0.3s; margin-bottom:16px; }
+        .login-input:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,92,231,0.08); }
+        .login-error { color:#e53e3e; font-size:12px; margin-bottom:12px; display:none; text-align:center; }
+        .btn-login { width:100%; padding:14px; background:var(--purple); color:#fff; border:none; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:0.3s; }
+        .btn-login:hover { background:var(--deep-purple); }
+        .btn-login-cancel { width:100%; padding:12px; background:transparent; color:#888; border:1px solid #ddd; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:0.3s; margin-top:10px; }
+        .btn-login-cancel:hover { background:#f5f5f5; }
+
+        /* ===== COURSE HERO ===== */
+        .course-hero { background:linear-gradient(135deg,#0d0d1f 0%,#1a0a3e 40%,#2d1b69 70%,#0d9488 100%); padding:60px 5%; color:#fff; position:relative; overflow:hidden; }
+        .course-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 80% 50%,rgba(108,92,231,0.15) 0%,transparent 60%); pointer-events:none; }
+        .course-hero-inner { max-width:800px; position:relative; z-index:2; }
+        .course-breadcrumb { display:flex; align-items:center; gap:8px; font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:20px; }
+        .course-breadcrumb a { color:rgba(255,255,255,0.5); text-decoration:none; }
+        .course-breadcrumb a:hover { color:var(--gold); }
+        .course-tag { display:inline-flex; align-items:center; gap:6px; font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; background:rgba(197,160,89,0.2); color:var(--gold); padding:4px 14px; border-radius:100px; margin-bottom:16px; }
+        .course-hero h1 { font-size:36px; font-weight:800; line-height:1.15; letter-spacing:-1px; margin-bottom:16px; }
+        .course-hero h1 em { font-style:normal; color:var(--gold); }
+        .course-hero-desc { font-size:15px; color:rgba(255,255,255,0.65); line-height:1.8; margin-bottom:28px; max-width:600px; }
+        .course-meta-row { display:flex; flex-wrap:wrap; gap:24px; margin-bottom:32px; }
+        .course-meta-item { display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.6); }
+        .course-meta-item span { font-weight:600; color:#fff; }
+        .course-progress-wrap { background:rgba(255,255,255,0.1); border-radius:100px; height:6px; max-width:400px; margin-bottom:8px; }
+        .course-progress-bar { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--teal),var(--purple)); transition:width 0.5s ease; }
+        .course-progress-label { font-size:11px; color:rgba(255,255,255,0.45); }
+
+        /* ===== CLASSROOM LAYOUT ===== */
+        .classroom-wrap { display:grid; grid-template-columns:300px 1fr; min-height:calc(100vh - 70px); }
+
+        /* ===== SIDEBAR ===== */
+        .classroom-sidebar { border-right:1px solid #eee; background:#fafafa; overflow-y:auto; position:sticky; top:70px; height:calc(100vh - 70px); }
+        .sidebar-header { padding:20px; border-bottom:1px solid #eee; }
+        .sidebar-course-title { font-size:13px; font-weight:700; color:#1a1a1a; line-height:1.4; }
+        .sidebar-progress { font-size:11px; color:#888; margin-top:4px; }
+        .sidebar-progress-bar { height:4px; background:#eee; border-radius:4px; margin-top:8px; }
+        .sidebar-progress-fill { height:100%; border-radius:4px; background:var(--teal); transition:width 0.4s; }
+        .module-group { border-bottom:1px solid #eee; }
+        .module-group-header { padding:16px 20px 12px; font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#bbb; }
+        .lesson-item { display:flex; align-items:center; gap:12px; padding:12px 20px; cursor:pointer; transition:all 0.2s; position:relative; border-left:3px solid transparent; }
+        .lesson-item:hover { background:#f0ecff; }
+        .lesson-item.active { background:#f0ecff; border-left-color:var(--purple); }
+        .lesson-item.completed .lesson-check { background:var(--teal); border-color:var(--teal); color:#fff; }
+        .lesson-check { width:22px; height:22px; border-radius:50%; border:2px solid #ddd; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; transition:0.3s; }
+        .lesson-info { flex:1; min-width:0; }
+        .lesson-title { font-size:12px; font-weight:600; color:#1a1a1a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .lesson-duration { font-size:10px; color:#aaa; margin-top:2px; }
+        .lesson-type-icon { font-size:13px; color:#ccc; flex-shrink:0; }
+        .lesson-item.active .lesson-type-icon,.lesson-item.active .lesson-title { color:var(--purple); }
+
+        /* ===== MAIN CONTENT ===== */
+        .classroom-main { display:flex; flex-direction:column; overflow-y:auto; }
+        .video-section { background:#0a0a0a; position:relative; }
+        .video-container { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; }
+        .video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+        .video-placeholder { position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg,#0d0d1f,#1a0a3e); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
+        .video-placeholder-icon { width:80px; height:80px; border-radius:50%; background:rgba(108,92,231,0.2); display:flex; align-items:center; justify-content:center; }
+        .video-placeholder-text { font-size:14px; color:rgba(255,255,255,0.5); font-family:'Montserrat',sans-serif; font-weight:600; letter-spacing:1px; }
+
+        /* Lesson content area */
+        .lesson-content { padding:40px 48px; flex:1; }
+        .lesson-content-header { margin-bottom:30px; border-bottom:1px solid #eee; padding-bottom:24px; }
+        .lesson-num { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--purple); margin-bottom:10px; display:block; }
+        .lesson-content-title { font-size:26px; font-weight:700; color:#1a1a1a; margin-bottom:12px; line-height:1.3; }
+        .lesson-content-desc { font-size:14px; color:#666; line-height:1.85; }
+        .lesson-nav { display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top:24px; border-top:1px solid #eee; flex-wrap:wrap; gap:12px; }
+        .btn-nav { display:flex; align-items:center; gap:8px; padding:12px 24px; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:0.25s; border:none; }
+        .btn-prev { background:#f5f5f5; color:#555; }
+        .btn-prev:hover { background:#eee; color:#1a1a1a; }
+        .btn-next { background:var(--purple); color:#fff; }
+        .btn-next:hover { background:var(--deep-purple); }
+        .btn-complete { background:var(--teal); color:#fff; }
+        .btn-complete:hover { background:var(--teal-dark); }
+
+        /* Notes */
+        .notes-section { padding:0 48px 48px; }
+        .notes-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; margin-bottom:10px; display:block; }
+        .notes-area { width:100%; min-height:100px; padding:14px 16px; border:1.5px solid #eee; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:14px; color:#1a1a1a; resize:vertical; outline:none; transition:0.3s; }
+        .notes-area:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,92,231,0.06); }
+
+        /* ===== INSTRUCTOR DASHBOARD ===== */
+        #instructor-view { display:none; background:#f5f5f7; min-height:calc(100vh - 70px); }
+        .instructor-topbar { background:linear-gradient(135deg,#0d0d1f,#1a0a3e); padding:24px 5%; color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+        .instructor-greeting { font-size:18px; font-weight:700; color:#fff; }
+        .instructor-greeting span { color:var(--gold); }
+        .btn-logout { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.15); padding:8px 20px; border-radius:6px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:0.25s; }
+        .btn-logout:hover { background:rgba(255,255,255,0.15); color:#fff; }
+
+        .instructor-dashboard { padding:36px 5% 60px; }
+        .dashboard-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
+        .stat-card { background:#fff; border:1px solid #eee; border-radius:12px; padding:22px; text-align:center; transition:0.25s; }
+        .stat-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.07); transform:translateY(-2px); }
+        .stat-num { font-size:34px; font-weight:800; letter-spacing:-2px; margin-bottom:5px; }
+        .stat-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; }
+
+        /* Body grid: course manager + students */
+        .instructor-body { display:grid; grid-template-columns:1fr 360px; gap:24px; align-items:start; }
+
+        /* Course manager panel */
+        .course-manager { background:#fff; border:1px solid #eee; border-radius:14px; overflow:hidden; }
+        .course-manager-topbar { padding:16px 20px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .course-manager-title { font-size:14px; font-weight:700; color:#1a1a1a; }
+        .course-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+        .course-tab { padding:6px 14px; border-radius:100px; border:1.5px solid #e0e0e0; background:transparent; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; color:#888; cursor:pointer; transition:0.2s; letter-spacing:0.5px; }
+        .course-tab.active { background:var(--purple); border-color:var(--purple); color:#fff; }
+        .course-tab:hover:not(.active) { border-color:var(--purple); color:var(--purple); }
+        .btn-sm-add { display:inline-flex; align-items:center; gap:5px; background:#1a1a1a; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; cursor:pointer; transition:0.25s; white-space:nowrap; }
+        .btn-sm-add:hover { background:#333; }
+
+        .module-list-manage { padding:0; }
+        .module-item { display:flex; align-items:center; gap:12px; padding:13px 20px; border-bottom:1px solid #f5f5f5; transition:0.2s; }
+        .module-item:last-child { border-bottom:none; }
+        .module-item:hover { background:#fafafa; }
+        .module-num-badge { width:30px; height:30px; border-radius:7px; background:rgba(108,92,231,0.1); color:var(--purple); font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .module-item-info { flex:1; min-width:0; }
+        .module-item-title { font-size:13px; font-weight:600; color:#1a1a1a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .module-item-meta { font-size:11px; color:#aaa; margin-top:2px; display:flex; align-items:center; gap:8px; }
+        .video-pill { display:inline-flex; align-items:center; gap:4px; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:100px; }
+        .video-pill.linked { background:rgba(0,168,150,0.1); color:var(--teal-dark); }
+        .video-pill.missing { background:rgba(229,62,62,0.08); color:#e53e3e; }
+        .module-item-actions { display:flex; gap:6px; flex-shrink:0; }
+        .btn-icon { width:30px; height:30px; border-radius:6px; border:1px solid #eee; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s; font-size:13px; background:#fff; color:#555; }
+        .btn-icon:hover { border-color:var(--purple); color:var(--purple); background:#f5f3ff; }
+        .btn-icon.delete:hover { border-color:#e53e3e; color:#e53e3e; background:#fff5f5; }
+
+        /* Students panel */
+        .students-panel { background:#fff; border:1px solid #eee; border-radius:14px; overflow:hidden; }
+        .students-panel-topbar { padding:16px 20px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+        .students-panel-title { font-size:14px; font-weight:700; color:#1a1a1a; }
+        .student-filter-select { border:1.5px solid #eee; border-radius:6px; padding:5px 10px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:600; color:#555; background:#fff; cursor:pointer; outline:none; }
+        .student-list { padding:0; max-height:520px; overflow-y:auto; }
+        .student-row { display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid #f5f5f5; transition:0.2s; }
+        .student-row:last-child { border-bottom:none; }
+        .student-row:hover { background:#fafafa; }
+        .student-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--teal)); color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .student-name { font-size:12px; font-weight:600; color:#1a1a1a; flex:1; min-width:0; }
+        .student-progress-wrap { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+        .student-progress-bar { width:60px; height:4px; background:#eee; border-radius:5px; overflow:hidden; }
+        .student-progress-fill { height:100%; background:var(--teal); border-radius:5px; }
+        .student-progress-pct { font-size:10px; font-weight:700; color:#888; width:26px; text-align:right; }
+        .student-badge { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border-radius:100px; }
+        .badge-active { background:rgba(0,168,150,0.1); color:var(--teal-dark); }
+        .badge-done { background:rgba(108,92,231,0.1); color:var(--purple); }
+
+        /* ===== STUDENT DASHBOARD ===== */
+        #student-dashboard { display:none; background:#f5f5f7; min-height:calc(100vh - 70px); }
+        .student-topbar { background:linear-gradient(135deg,#0d0d1f,#4834d4); padding:24px 5%; color:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+        .student-greeting { font-size:18px; font-weight:700; }
+        .student-greeting span { color:var(--gold); }
+        .student-dashboard-body { padding:40px 5% 60px; max-width:1200px; margin:0 auto; }
+        .student-section-title { font-size:22px; font-weight:800; color:#1a1a1a; margin-bottom:8px; }
+        .student-section-sub { font-size:14px; color:#888; margin-bottom:32px; }
+        .student-courses-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+        .student-course-card { background:#fff; border:1px solid #eee; border-radius:16px; overflow:hidden; transition:0.25s; cursor:pointer; }
+        .student-course-card:hover { box-shadow:0 10px 32px rgba(0,0,0,0.1); transform:translateY(-4px); }
+        .student-course-thumb { height:130px; position:relative; overflow:hidden; }
+        .student-course-body { padding:20px 22px 22px; }
+        .student-course-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#aaa; margin-bottom:6px; display:block; }
+        .student-course-name { font-size:15px; font-weight:800; color:#1a1a1a; margin-bottom:14px; line-height:1.4; }
+        .student-progress-row2 { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+        .student-progress-track { flex:1; height:7px; background:#eee; border-radius:7px; overflow:hidden; }
+        .student-progress-fill2 { height:100%; border-radius:7px; background:linear-gradient(90deg,var(--purple),var(--teal)); transition:width 0.6s; }
+        .student-progress-txt { font-size:11px; font-weight:700; color:#888; white-space:nowrap; }
+        .btn-continue { width:100%; padding:12px; border:none; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:0.25s; color:#fff; background:#1a1a1a; }
+        .btn-continue:hover { opacity:0.85; }
+        .btn-continue.in-progress { background:var(--purple); }
+        .btn-continue.completed { background:var(--teal); }
+
+        /* Hero minimise */
+        .course-hero { transition:padding 0.3s, min-height 0.3s; position:relative; }
+        .course-hero.minimised { padding:0 !important; min-height:52px; }
+        .course-hero.minimised #hero-full { display:none !important; }
+        .course-hero.minimised #hero-collapsed { display:flex !important; }
+        .hero-minimize-btn { position:absolute; bottom:12px; right:16px; width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; z-index:10; }
+        .hero-minimize-btn:hover { background:rgba(255,255,255,0.2); color:#fff; }
+        .course-hero.minimised .hero-minimize-btn { bottom:50%; transform:translateY(50%); }
+
+        /* Back to dashboard link */
+        .back-to-dashboard { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.5); cursor:pointer; background:none; border:none; padding:0; margin-bottom:16px; transition:color 0.2s; }
+        .back-to-dashboard:hover { color:var(--gold); }
+
+        /* ===== REACTIONS ===== */
+        .reactions-section { padding:24px 48px 40px; border-top:1px solid #f0f0f0; }
+        .reactions-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; margin-bottom:14px; display:block; }
+        .reactions-row { display:flex; gap:10px; flex-wrap:wrap; }
+        .reaction-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 18px; border:1.5px solid #eee; border-radius:100px; background:#fff; font-family:'Montserrat',sans-serif; font-size:13px; cursor:pointer; transition:0.2s; color:#555; }
+        .reaction-btn:hover { border-color:var(--purple); background:#f5f3ff; transform:scale(1.04); }
+        .reaction-btn.active { border-color:var(--purple); background:#f0ecff; color:var(--purple); }
+        .reaction-label { font-size:11px; font-weight:600; }
+        .reaction-count { font-size:12px; font-weight:800; color:#bbb; min-width:14px; }
+        .reaction-btn.active .reaction-count { color:var(--purple); }
+
+        @media(max-width:900px){ .student-courses-grid{ grid-template-columns:1fr 1fr; } .reactions-section{ padding:20px; } }
+        @media(max-width:600px){ .student-courses-grid{ grid-template-columns:1fr; } }
+
+        /* Upload module modal */
+        .upload-modal-box { background:#fff; border-radius:14px; width:100%; max-width:560px; padding:36px; }
+        .upload-title { font-size:20px; font-weight:800; color:#1a1a1a; margin-bottom:6px; }
+        .upload-sub { font-size:13px; color:#888; margin-bottom:28px; }
+        .upload-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#555; display:block; margin-bottom:8px; }
+        .upload-input { width:100%; padding:12px 16px; border:1.5px solid #ddd; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:14px; color:#1a1a1a; outline:none; transition:0.3s; margin-bottom:16px; }
+        .upload-input:focus { border-color:var(--purple); }
+        .upload-actions { display:flex; gap:10px; margin-top:4px; }
+        .btn-upload-save { flex:1; padding:13px; background:var(--purple); color:#fff; border:none; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:0.25s; }
+        .btn-upload-save:hover { background:var(--deep-purple); }
+        .btn-upload-cancel { padding:13px 20px; background:#f5f5f5; color:#555; border:none; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:0.25s; }
+        .btn-upload-cancel:hover { background:#eee; }
+
+        /* Toast */
+        #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#1a1a1a; color:#fff; font-size:13px; font-weight:600; padding:12px 24px; border-radius:100px; z-index:8000; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; font-family:'Montserrat',sans-serif; }
+        #toast.show { opacity:1; }
+
+        /* Responsive */
+        @media (max-width:1100px) {
+            .instructor-body { grid-template-columns:1fr; }
+        }
+        @media (max-width:900px) {
+            .header-main { padding:0 4%; }
+            .header-nav-right { display:none; }
+            .header-logo-center { padding:10px 0; }
+            .header-logo-name { font-size:10px; letter-spacing:2px; }
+            .header-logo-emblem { width:32px; height:32px; margin-bottom:4px; }
+            .mobile-menu-btn { display:flex; }
+            .classroom-wrap { grid-template-columns:1fr; }
+            .classroom-sidebar { position:static; height:auto; max-height:340px; }
+            .lesson-content { padding:28px 20px; }
+            .notes-section { padding:0 20px 32px; }
+            .dashboard-stats { grid-template-columns:1fr 1fr; }
+            .course-manager-topbar { flex-wrap:wrap; }
+            .course-hero h1 { font-size:26px; }
+        }
+        @media (max-width:600px) {
+            .course-hero { padding:40px 5%; }
+            .course-hero h1 { font-size:22px; }
+            .lesson-content-title { font-size:20px; }
+            .dashboard-stats { grid-template-columns:1fr 1fr; gap:14px; }
+            .stat-num { font-size:28px; }
+            .course-tabs { gap:4px; }
+            .course-tab { padding:5px 10px; font-size:10px; }
+        }
+    </style>
+<style>
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    @page {
+      size: auto;
+      margin: 0mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-main">
+        <div class="header-logo-center">
+            <div class="header-logo-emblem"></div>
+            <span class="header-logo-name">Kingdom Alignment Global</span>
+        </div>
+        <ul class="header-nav-right">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about_us.html">About</a></li>
+            <li><a href="contact_us.html">Contact</a></li>
+            <li><a href="give.html">Give</a></li>
+            <li><a href="store.html">Store</a></li>
+            <li><a href="event.html">Events</a></li>
+            <li>
+                <a href="store.html" style="padding-right:0;">
+                    <div class="header-icon-btn" style="display:inline-flex;position:relative;cursor:pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        <span id="cartBadge" style="position:absolute;top:-9px;right:-9px;background:var(--teal);color:white;font-size:9px;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;">0</span>
+                    </div>
+                </a>
+            </li>
+            <li id="instructor-nav-btn" style="display:none;"><a href="#" onclick="event.preventDefault();openInstructorLogin()" style="color:var(--gold) !important;">Instructor</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="about_us.html">About</a>
+        <a href="contact_us.html">Contact</a>
+        <a href="give.html">Give</a>
+        <a href="store.html">Store</a>
+        <a href="event.html" class="active">Events</a>
+        <a href="#" id="instructor-mobile-btn" style="display:none;color:var(--gold);" onclick="event.preventDefault();openInstructorLogin()">Instructor Login</a>
+    </nav>
+</header>
+
+<!-- ===== INSTRUCTOR LOGIN MODAL ===== -->
+<div class="modal-overlay" id="loginModal" onclick="if(event.target===this)closeLoginModal()">
+    <div class="login-box">
+        <div class="login-logo"><div></div></div>
+        <div class="login-title">Instructor Portal</div>
+        <div class="login-sub">Sign in to manage courses and student progress.</div>
+        <label class="login-label">Email Address</label>
+        <input type="email" class="login-input" id="loginEmail" placeholder="instructor@kag.com">
+        <label class="login-label">Password</label>
+        <input type="password" class="login-input" id="loginPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+        <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
+        <button class="btn-login" onclick="doLogin()">Sign In →</button>
+        <button class="btn-login-cancel" onclick="closeLoginModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- ===== STUDENT LOGIN MODAL ===== -->
+<div class="modal-overlay" id="studentLoginModal">
+    <div class="login-box">
+        <div class="login-logo"><div></div></div>
+        <div class="login-title">Student Portal</div>
+        <div class="login-sub">Sign in to access your courses and track progress.</div>
+        <label class="login-label">Email Address</label>
+        <input type="email" class="login-input" id="studentEmail" placeholder="your@email.com">
+        <label class="login-label">Password</label>
+        <input type="password" class="login-input" id="studentPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter')doStudentLogin()">
+        <div class="login-error" id="studentLoginError">Incorrect credentials. Please try again.</div>
+        <button class="btn-login" onclick="doStudentLogin()">Sign In →</button>
+        <a href="event.html" style="display:block;text-align:center;margin-top:14px;font-size:12px;color:#888;text-decoration:none;">Not enrolled yet? Enroll on the Events page →</a>
+    </div>
+</div>
+
+<!-- ===== STUDENT DASHBOARD ===== -->
+<div id="student-dashboard">
+    <div class="student-topbar">
+        <div>
+            <div class="student-greeting">Welcome, <span>Kingdom Aligner</span></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">School of Alignment · Kingdom Alignment Global</div>
+        </div>
+        <button class="btn-logout" onclick="studentLogout()">Sign Out</button>
+    </div>
+    <div class="student-dashboard-body">
+        <h2 class="student-section-title">My Courses</h2>
+        <p class="student-section-sub">Continue where you left off or start a new course.</p>
+        <div class="student-courses-grid" id="student-courses-grid"></div>
+    </div>
+</div>
+
+<!-- ===== UPLOAD MODULE MODAL ===== -->
+<div class="modal-overlay" id="uploadModal" onclick="if(event.target===this)closeUploadModal()">
+    <div class="upload-modal-box">
+        <div class="upload-title" id="uploadModalTitle">Add New Lesson</div>
+        <div class="upload-sub" id="uploadModalSub">Add a new lesson to the selected course.</div>
+        <label class="upload-label">Lesson Title</label>
+        <input type="text" class="upload-input" id="uploadTitle" placeholder="e.g. The Four Dimensions of the Kingdom">
+        <label class="upload-label">YouTube Video Link or ID</label>
+        <input type="text" class="upload-input" id="uploadYoutube" placeholder="https://youtu.be/... or paste video ID">
+        <label class="upload-label">Duration</label>
+        <input type="text" class="upload-input" id="uploadDuration" placeholder="e.g. 28 min">
+        <label class="upload-label">Description</label>
+        <textarea class="upload-input" id="uploadDesc" placeholder="Brief lesson description" rows="2" style="resize:vertical;"></textarea>
+        <label class="upload-label" id="uploadCourseLabel">Course</label>
+        <select class="upload-input" id="uploadCourse">
+            <option value="foundations">School of Alignment: Module 1</option>
+            <option value="prophetic">Prophetic Activation Training</option>
+            <option value="architecture">Kingdom Architecture &amp; Assignment</option>
+        </select>
+        <div class="upload-actions">
+            <button class="btn-upload-cancel" onclick="closeUploadModal()">Cancel</button>
+            <button class="btn-upload-save" id="uploadSaveBtn" onclick="saveModule()">Save Lesson →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== STUDENT VIEW ===== -->
+<div id="student-view">
+
+    <!-- Course Hero -->
+    <div class="course-hero" id="course-hero">
+        <!-- Minimise button — always visible -->
+        <button class="hero-minimize-btn" id="hero-minimize-btn" onclick="toggleHero()" title="Minimise">
+            <svg id="hero-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s;"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+
+        <!-- Collapsed bar (shown when minimised) -->
+        <div id="hero-collapsed" style="display:none; padding:0 5%; height:100%; align-items:center; gap:16px;">
+            <button class="back-to-dashboard" onclick="backToDashboard()" id="back-dashboard-btn-min" style="display:none;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                My Courses
+            </button>
+            <span id="hero-collapsed-title" style="font-size:14px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
+            <div id="hero-collapsed-progress" style="display:flex;align-items:center;gap:10px;">
+                <div style="width:120px;height:5px;background:rgba(255,255,255,0.15);border-radius:5px;overflow:hidden;">
+                    <div id="progress-bar-min" style="height:100%;border-radius:5px;background:linear-gradient(90deg,var(--teal),var(--purple));transition:width 0.4s;width:0%;"></div>
+                </div>
+                <span id="progress-label-min" style="font-size:11px;color:rgba(255,255,255,0.5);white-space:nowrap;">0%</span>
+            </div>
+        </div>
+
+        <!-- Full content (shown by default) -->
+        <div class="course-hero-inner" id="hero-full">
+            <button class="back-to-dashboard" onclick="backToDashboard()" id="back-dashboard-btn" style="display:none;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                My Courses
+            </button>
+            <div class="course-breadcrumb">
+                <a href="event.html">Events</a>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                <span>School of Alignment</span>
+            </div>
+            <div class="course-tag">School of Alignment</div>
+            <h1 id="hero-title">School of Alignment: <em>Module 1</em></h1>
+            <p class="course-hero-desc" id="hero-desc">Discover what it means to be a Kingdom Aligner. Learn the four dimensions of our mandate and how alignment precedes every assignment God has for your life.</p>
+            <div class="course-meta-row">
+                <div class="course-meta-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span id="hero-duration">4 lessons · 2 hrs</span>
+                </div>
+                <div class="course-meta-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Instructor: <span>KAC Faculty</span>
+                </div>
+                <div class="course-meta-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    Free · Certificate included
+                </div>
+            </div>
+            <div class="course-progress-wrap">
+                <div class="course-progress-bar" id="progress-bar" style="width:0%"></div>
+            </div>
+            <div class="course-progress-label" id="progress-label">0% complete</div>
+        </div>
+    </div>
+
+    <!-- Classroom -->
+    <div class="classroom-wrap">
+
+        <!-- Sidebar -->
+        <aside class="classroom-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-course-title" id="sidebar-title">School of Alignment: Module 1</div>
+                <div class="sidebar-progress" id="sidebar-progress">0 of 4 completed</div>
+                <div class="sidebar-progress-bar"><div class="sidebar-progress-fill" id="sidebar-fill" style="width:0%"></div></div>
+            </div>
+            <div id="lesson-outline">
+                <!-- Rendered by JS -->
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="classroom-main">
+            <!-- Video -->
+            <div class="video-section">
+                <div class="video-container" id="video-container">
+                    <div class="video-placeholder" id="video-placeholder">
+                        <div class="video-placeholder-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                        </div>
+                        <div class="video-placeholder-text">Select a lesson to begin</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lesson content -->
+            <div class="lesson-content">
+                <div class="lesson-content-header">
+                    <span class="lesson-num" id="lesson-num">Lesson 1 of 4</span>
+                    <h2 class="lesson-content-title" id="lesson-title">Select a lesson to begin</h2>
+                    <p class="lesson-content-desc" id="lesson-desc">Choose a lesson from the sidebar to start learning. Your progress is saved automatically.</p>
+                </div>
+                <div class="lesson-nav">
+                    <button class="btn-nav btn-prev" id="btn-prev" onclick="prevLesson()" disabled>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        Previous
+                    </button>
+                    <button class="btn-nav btn-complete" id="btn-complete" onclick="markComplete()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        Mark Complete
+                    </button>
+                    <button class="btn-nav btn-next" id="btn-next" onclick="nextLesson()">
+                        Next
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="notes-section">
+                <span class="notes-label">My Notes</span>
+                <textarea class="notes-area" id="notes-area" placeholder="Take notes for this lesson…" oninput="saveNote()"></textarea>
+            </div>
+
+            <!-- Reactions -->
+            <div class="reactions-section">
+                <span class="reactions-label">React to this lesson</span>
+                <div class="reactions-row" id="reactions-row"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== INSTRUCTOR DASHBOARD ===== -->
+<div id="instructor-view">
+    <div class="instructor-topbar">
+        <div>
+            <div class="instructor-greeting">Welcome back, <span>Instructor</span></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">Kingdom Alignment Global · School of Alignment</div>
+        </div>
+        <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+
+    <div class="instructor-dashboard">
+        <!-- Stats -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-num" style="color:var(--purple);" id="stat-students">0</div>
+                <div class="stat-label">Enrolled Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color:var(--teal);" id="stat-modules">0</div>
+                <div class="stat-label">Total Modules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color:var(--gold-dark);" id="stat-linked">0</div>
+                <div class="stat-label">Videos Linked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color:#e17055;" id="stat-courses">3</div>
+                <div class="stat-label">Active Courses</div>
+            </div>
+        </div>
+
+        <!-- Body: course manager + students -->
+        <div class="instructor-body">
+
+            <!-- Course Modules Manager -->
+            <div class="course-manager">
+                <div class="course-manager-topbar">
+                    <span class="course-manager-title">Course Modules</span>
+                    <div class="course-tabs" id="course-tabs">
+                        <button class="course-tab active" onclick="switchCourseTab('foundations')">Foundations</button>
+                        <button class="course-tab" onclick="switchCourseTab('prophetic')">Prophetic</button>
+                        <button class="course-tab" onclick="switchCourseTab('architecture')">Architecture</button>
+                    </div>
+                    <button class="btn-sm-add" onclick="openAddModal()">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add Lesson
+                    </button>
+                </div>
+                <div class="module-list-manage" id="module-list-manage"></div>
+            </div>
+
+            <!-- Enrolled Students -->
+            <div class="students-panel">
+                <div class="students-panel-topbar">
+                    <span class="students-panel-title">Enrolled Students</span>
+                    <select class="student-filter-select" id="student-filter" onchange="renderStudentList()">
+                        <option value="">All Courses</option>
+                        <option value="foundations">Foundations</option>
+                        <option value="prophetic">Prophetic</option>
+                        <option value="architecture">Architecture</option>
+                    </select>
+                </div>
+                <div class="student-list" id="student-list"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ============================================
+// COURSE DATA — edit YouTube IDs here
+// ============================================
+const COURSES = {
+    foundations: {
+        title: 'School of Alignment: Module 1',
+        titleShort: 'Kingdom Foundations',
+        desc: 'Discover what it means to be a Kingdom Aligner. Learn the four dimensions of our mandate and how alignment precedes every assignment God has for your life.',
+        duration: '4 lessons · 2 hrs',
+        lessons: [
+            { title: 'What is Kingdom Alignment?', desc: 'An introduction to the mandate of KAC and what it means to be a Kingdom Aligner in your generation.', duration: '28 min', youtubeId: '' },
+            { title: 'The Four Dimensions of the Mandate', desc: 'Explore Kingdom, Alignment, Church, and Global — the four pillars that define our identity and mission.', duration: '34 min', youtubeId: '' },
+            { title: 'Alignment Precedes Assignment', desc: 'Understand why divine order must come before divine assignment, and how to walk in both clarity and authority.', duration: '30 min', youtubeId: '' },
+            { title: 'Walking as a Kingdom Aligner', desc: 'Practical steps to carry Christ\'s presence and establish Kingdom order in every sphere of your life.', duration: '26 min', youtubeId: '' },
+        ]
+    },
+    prophetic: {
+        title: 'Prophetic Activation Training',
+        titleShort: 'Prophetic Training',
+        desc: 'Identify your prophetic gifts, receive practical training, and step into ministry with clarity, accuracy, and apostolic accountability.',
+        duration: '5 lessons · 3 hrs',
+        lessons: [
+            { title: 'Understanding the Prophetic Gift', desc: 'A biblical foundation for the prophetic ministry and how it functions within the apostolic mandate.', duration: '35 min', youtubeId: '' },
+            { title: 'Hearing God\'s Voice Accurately', desc: 'Practical keys to distinguishing God\'s voice from other influences and growing in prophetic accuracy.', duration: '38 min', youtubeId: '' },
+            { title: 'Prophetic Expression and Delivery', desc: 'How to deliver prophetic words with grace, wisdom, and Kingdom precision — in personal and corporate settings.', duration: '32 min', youtubeId: '' },
+            { title: 'Accountability and Prophetic Culture', desc: 'The role of apostolic oversight, honour, and community in safeguarding the prophetic flow.', duration: '28 min', youtubeId: '' },
+            { title: 'Stepping Into Prophetic Ministry', desc: 'Your next steps — how to operate in your prophetic gifting and serve the body of Christ with integrity.', duration: '27 min', youtubeId: '' },
+        ]
+    },
+    architecture: {
+        title: 'Kingdom Architecture & Assignment',
+        titleShort: 'Kingdom Architecture',
+        desc: 'Understand the structure of God\'s Kingdom, discover your divine assignment, and learn to build with precision and purpose in every sphere.',
+        duration: '5 lessons · 3 hrs',
+        lessons: [
+            { title: 'The Architecture of God\'s Kingdom', desc: 'How God\'s Kingdom is structured, and why understanding this architecture is essential for every Kingdom builder.', duration: '36 min', youtubeId: '' },
+            { title: 'Discerning Your Kingdom Assignment', desc: 'Tools and principles to help you identify the specific sphere God has called you to occupy and transform.', duration: '34 min', youtubeId: '' },
+            { title: 'Building With Precision', desc: 'Why we are raising men and women who burn with intimacy and build with precision — and how to become one.', duration: '30 min', youtubeId: '' },
+            { title: 'Seven Mountains of Culture', desc: 'How the Kingdom of God manifests through the seven spheres of society — church, family, education, media, arts, business, and government.', duration: '32 min', youtubeId: '' },
+            { title: 'Releasing Heaven\'s Culture', desc: 'Practical strategies to advance Heaven\'s culture in your community, workplace, and sphere of influence.', duration: '28 min', youtubeId: '' },
+        ]
+    }
+};
+
+const INSTRUCTOR_EMAIL = 'BKPA@kag.com';
+const INSTRUCTOR_PASSWORD = '1234';
+const STUDENT_EMAIL = 'st@abkpa.com';
+const STUDENT_PASSWORD = '1234';
+
+const COURSE_COLORS = {
+    foundations: 'linear-gradient(135deg,#6c5ce7 0%,#4834d4 100%)',
+    prophetic:   'linear-gradient(135deg,#00a896 0%,#0d9488 100%)',
+    architecture:'linear-gradient(135deg,#c5a059 0%,#9c7a38 100%)',
+};
+
+const REACTIONS_DATA = [
+    { key:'like',  emoji:'👍', label:'Helpful' },
+    { key:'love',  emoji:'❤️', label:'Love'    },
+    { key:'pray',  emoji:'🙏', label:'Amen'    },
+    { key:'fire',  emoji:'🔥', label:'Fire'    },
+];
+
+// ============================================
+// STATE
+// ============================================
+let currentCourse = 'foundations';
+let currentLessonIdx = 0;
+let isInstructor = false;
+let completed = {};
+let instructorModules = {};
+let lessonOverrides = {};   // overrides for built-in lessons: key = 'course_idx'
+let instructorCourseTab = 'foundations';
+let editState = { mode: 'new', courseKey: 'foundations', idx: -1 }; // mode: new | base | extra
+
+// ============================================
+// INIT
+// ============================================
+function init() {
+    const params = new URLSearchParams(window.location.search);
+    const courseKey = params.get('course');
+    if (courseKey && COURSES[courseKey]) currentCourse = courseKey;
+
+    // Load completed lessons from localStorage
+    const stored = localStorage.getItem('kac_progress_' + currentCourse);
+    completed = stored ? JSON.parse(stored) : {};
+
+    // Load instructor modules additions
+    const storedMods = localStorage.getItem('kac_instructor_modules');
+    instructorModules = storedMods ? JSON.parse(storedMods) : {};
+    const storedOverrides = localStorage.getItem('kac_lesson_overrides');
+    lessonOverrides = storedOverrides ? JSON.parse(storedOverrides) : {};
+
+    if (localStorage.getItem('kac_instructor_logged_in') === '1') {
+        isInstructor = true;
+        showInstructorView();
+    } else if (localStorage.getItem('kac_student_logged_in') === '1') {
+        showStudentDashboard();
+    } else {
+        document.getElementById('studentLoginModal').classList.add('open');
+    }
+
+    // Cart badge
+    try {
+        const cart = JSON.parse(localStorage.getItem('kag_cart') || '[]');
+        const count = cart.reduce((s, i) => s + i.qty, 0);
+        if (count > 0) { const b = document.getElementById('cartBadge'); if(b){b.textContent=count;b.style.display='flex';} }
+    } catch(e) {}
+}
+
+// ============================================
+// STUDENT VIEW
+// ============================================
+function renderStudentView() {
+    const course = COURSES[currentCourse];
+    document.title = course.title + ' | Kingdom Alignment Global';
+    document.getElementById('hero-title').innerHTML = course.title.replace(/:\s*(.+)/, ': <em>$1</em>');
+    document.getElementById('hero-desc').textContent = course.desc;
+    document.getElementById('hero-duration').textContent = course.duration;
+    document.getElementById('sidebar-title').textContent = course.title;
+    // Show back button only if student is logged in (came from dashboard)
+    const backBtn = document.getElementById('back-dashboard-btn');
+    if (backBtn) backBtn.style.display = localStorage.getItem('kac_student_logged_in') === '1' ? 'inline-flex' : 'none';
+    renderOutline();
+    updateProgress();
+    // Resume from last lesson or start from 0
+    const lastLesson = parseInt(localStorage.getItem('kac_last_lesson_' + currentCourse) || '0');
+    loadLesson(lastLesson);
+}
+
+function getLessons() {
+    const base = COURSES[currentCourse].lessons.map((l, i) => {
+        const ov = lessonOverrides[currentCourse + '_' + i];
+        return ov ? { ...l, ...ov } : l;
+    });
+    const extra = (instructorModules[currentCourse] || []);
+    return [...base, ...extra];
+}
+
+function renderOutline() {
+    const lessons = getLessons();
+    const container = document.getElementById('lesson-outline');
+    container.innerHTML = `<div class="module-group"><div class="module-group-header">Course Lessons</div>` +
+        lessons.map((l, i) => `
+            <div class="lesson-item ${i === currentLessonIdx ? 'active' : ''} ${completed[i] ? 'completed' : ''}" id="lesson-item-${i}" onclick="loadLesson(${i})">
+                <div class="lesson-check">${completed[i] ? '✓' : ''}</div>
+                <div class="lesson-info">
+                    <div class="lesson-title">${l.title}</div>
+                    <div class="lesson-duration">${l.duration}</div>
+                </div>
+                <span class="lesson-type-icon">▶</span>
+            </div>
+        `).join('') + `</div>`;
+}
+
+function loadLesson(idx) {
+    const lessons = getLessons();
+    if (idx < 0 || idx >= lessons.length) return;
+    currentLessonIdx = idx;
+    const lesson = lessons[idx];
+
+    // Update active state
+    document.querySelectorAll('.lesson-item').forEach(el => el.classList.remove('active'));
+    const activeItem = document.getElementById('lesson-item-' + idx);
+    if (activeItem) activeItem.classList.add('active');
+
+    // Update content
+    document.getElementById('lesson-num').textContent = `Lesson ${idx + 1} of ${lessons.length}`;
+    document.getElementById('lesson-title').textContent = lesson.title;
+    document.getElementById('lesson-desc').textContent = lesson.desc;
+
+    // Load video
+    const container = document.getElementById('video-container');
+    if (lesson.youtubeId) {
+        const videoId = extractYouTubeId(lesson.youtubeId);
+        container.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" allowfullscreen title="${lesson.title}"></iframe></div>`;
+    } else {
+        container.innerHTML = `<div class="video-container"><div class="video-placeholder"><div class="video-placeholder-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><div class="video-placeholder-text">${lesson.title}</div><div style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Montserrat,sans-serif;">Add YouTube link in Instructor Portal</div></div></div>`;
+    }
+
+    // Nav buttons
+    document.getElementById('btn-prev').disabled = idx === 0;
+    document.getElementById('btn-next').disabled = idx === lessons.length - 1;
+    document.getElementById('btn-complete').textContent = completed[idx] ? '✓ Completed' : 'Mark Complete';
+    document.getElementById('btn-complete').style.background = completed[idx] ? '#888' : 'var(--teal)';
+
+    // Load notes
+    const savedNote = localStorage.getItem(`kac_note_${currentCourse}_${idx}`) || '';
+    document.getElementById('notes-area').value = savedNote;
+
+    // Save last position
+    localStorage.setItem('kac_last_lesson_' + currentCourse, idx);
+
+    updateProgress();
+    renderReactions();
+}
+
+function markComplete() {
+    completed[currentLessonIdx] = true;
+    localStorage.setItem('kac_progress_' + currentCourse, JSON.stringify(completed));
+    renderOutline();
+    loadLesson(currentLessonIdx);
+    showToast('Lesson marked complete!');
+    const lessons = getLessons();
+    if (Object.keys(completed).length === lessons.length) {
+        setTimeout(() => showToast('Course complete! Certificate unlocked.'), 1200);
+    }
+}
+
+function prevLesson() { loadLesson(currentLessonIdx - 1); }
+function nextLesson() { loadLesson(currentLessonIdx + 1); }
+
+function saveNote() {
+    localStorage.setItem(`kac_note_${currentCourse}_${currentLessonIdx}`, document.getElementById('notes-area').value);
+}
+
+function updateProgress() {
+    const lessons = getLessons();
+    const count = Object.values(completed).filter(Boolean).length;
+    const pct = lessons.length > 0 ? Math.round((count / lessons.length) * 100) : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = pct + '% complete';
+    document.getElementById('sidebar-progress').textContent = `${count} of ${lessons.length} completed`;
+    document.getElementById('sidebar-fill').style.width = pct + '%';
+    // Sync mini bar
+    const miniBar = document.getElementById('progress-bar-min');
+    const miniLbl = document.getElementById('progress-label-min');
+    if (miniBar) miniBar.style.width = pct + '%';
+    if (miniLbl) miniLbl.textContent = pct + '%';
+}
+
+function extractYouTubeId(input) {
+    if (!input) return '';
+    const patterns = [/youtu\.be\/([^?&]+)/, /youtube\.com\/watch\?v=([^&]+)/, /youtube\.com\/embed\/([^?&]+)/];
+    for (const p of patterns) { const m = input.match(p); if (m) return m[1]; }
+    return input.trim();
+}
+
+// ============================================
+// INSTRUCTOR LOGIN
+// ============================================
+function openInstructorLogin() { document.getElementById('loginModal').classList.add('open'); document.getElementById('loginEmail').focus(); }
+function closeLoginModal() { document.getElementById('loginModal').classList.remove('open'); }
+
+function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const err = document.getElementById('loginError');
+    if (email === INSTRUCTOR_EMAIL && password === INSTRUCTOR_PASSWORD) {
+        localStorage.setItem('kac_instructor_logged_in', '1');
+        isInstructor = true;
+        closeLoginModal();
+        showInstructorView();
+    } else {
+        err.style.display = 'block';
+        document.getElementById('loginPassword').value = '';
+    }
+}
+
+function logout() {
+    localStorage.removeItem('kac_instructor_logged_in');
+    isInstructor = false;
+    document.getElementById('instructor-view').style.display = 'none';
+    document.getElementById('student-view').style.display = 'block';
+    renderStudentView();
+}
+
+// ============================================
+// INSTRUCTOR DASHBOARD
+// ============================================
+function showInstructorView() {
+    document.getElementById('student-view').style.display = 'none';
+    document.getElementById('instructor-view').style.display = 'block';
+    document.getElementById('instructor-nav-btn').style.display = 'none';
+    document.getElementById('instructor-mobile-btn').style.display = 'none';
+    renderModuleManagement();
+    renderStudentList();
+    updateDashboardStats();
+}
+
+function switchCourseTab(key) {
+    instructorCourseTab = key;
+    document.querySelectorAll('.course-tab').forEach((t, i) => {
+        t.classList.toggle('active', ['foundations','prophetic','architecture'][i] === key);
+    });
+    renderModuleManagement();
+}
+
+function updateDashboardStats() {
+    const totalBase = Object.values(COURSES).reduce((s, c) => s + c.lessons.length, 0);
+    const totalExtra = Object.values(instructorModules).reduce((s, a) => s + a.length, 0);
+    document.getElementById('stat-modules').textContent = totalBase + totalExtra;
+
+    // Count videos linked (base with override youtubeId + extra with youtubeId)
+    let linked = 0;
+    Object.entries(COURSES).forEach(([key, course]) => {
+        course.lessons.forEach((l, i) => {
+            const ov = lessonOverrides[key + '_' + i];
+            if ((ov && ov.youtubeId) || l.youtubeId) linked++;
+        });
+        (instructorModules[key] || []).forEach(l => { if (l.youtubeId) linked++; });
+    });
+    document.getElementById('stat-linked').textContent = linked;
+
+    const enrolled = JSON.parse(localStorage.getItem('kac_enrolled_students') || '[]');
+    const countEl = document.getElementById('stat-students');
+    if (countEl) countEl.textContent = enrolled.length;
+}
+
+function renderModuleManagement() {
+    const key = instructorCourseTab;
+    const course = COURSES[key];
+    const baseLessons = course.lessons.map((l, i) => {
+        const ov = lessonOverrides[key + '_' + i];
+        return ov ? { ...l, ...ov, _isBase: true, _idx: i } : { ...l, _isBase: true, _idx: i };
+    });
+    const extraLessons = (instructorModules[key] || []).map((l, i) => ({ ...l, _isBase: false, _idx: i }));
+    const allLessons = [...baseLessons, ...extraLessons];
+
+    const container = document.getElementById('module-list-manage');
+    if (!allLessons.length) {
+        container.innerHTML = '<div style="padding:24px;font-size:13px;color:#aaa;text-align:center;">No lessons yet.</div>';
+        return;
+    }
+    container.innerHTML = allLessons.map((l, i) => {
+        const hasVideo = !!(l.youtubeId && l.youtubeId.trim());
+        const editFn = l._isBase ? `editBaseLesson('${key}',${l._idx})` : `editExtraLesson('${key}',${l._idx})`;
+        const delBtn = l._isBase
+            ? `<button class="btn-icon delete" onclick="clearBaseLesson('${key}',${l._idx})" title="Clear video">✕</button>`
+            : `<button class="btn-icon delete" onclick="deleteExtraLesson('${key}',${l._idx})" title="Delete">🗑</button>`;
+        return `<div class="module-item">
+            <div class="module-num-badge">${String(i+1).padStart(2,'0')}</div>
+            <div class="module-item-info">
+                <div class="module-item-title">${l.title}</div>
+                <div class="module-item-meta">
+                    ${l.duration || '—'}
+                    <span class="video-pill ${hasVideo ? 'linked' : 'missing'}">${hasVideo ? '▶ Video linked' : '⚠ No video'}</span>
+                    ${l._isBase ? '' : '<span style="font-size:9px;color:#bbb;letter-spacing:1px;text-transform:uppercase;">Custom</span>'}
+                </div>
+            </div>
+            <div class="module-item-actions">
+                <button class="btn-icon" onclick="${editFn}" title="Edit">✏</button>
+                ${delBtn}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function getInitials(name) {
+    return name.trim().split(/\s+/).map(w => w[0].toUpperCase()).slice(0, 2).join('');
+}
+
+function renderStudentList() {
+    const enrolled = JSON.parse(localStorage.getItem('kac_enrolled_students') || '[]');
+    const filterEl = document.getElementById('student-filter');
+    const filterCourse = filterEl ? filterEl.value : '';
+
+    const filtered = filterCourse
+        ? enrolled.filter(s => s.course === filterCourse)
+        : enrolled;
+
+    const el = document.getElementById('student-list');
+    const countEl = document.getElementById('stat-students');
+    if (countEl) countEl.textContent = enrolled.length;
+
+    if (!filtered.length) {
+        el.innerHTML = '<div style="padding:24px 20px;font-size:13px;color:#aaa;text-align:center;">No students enrolled yet.</div>';
+        return;
+    }
+
+    el.innerHTML = filtered.map(s => {
+        const initials = getInitials(s.name || 'S');
+        const progress = s.progress || 0;
+        const status = progress >= 100 ? 'done' : 'active';
+        return `
+        <div class="student-row">
+            <div class="student-avatar">${initials}</div>
+            <div class="student-name">${s.name}<div style="font-size:10px;color:#aaa;font-weight:500;">${s.email || ''}</div></div>
+            <div class="student-progress-wrap">
+                <div class="student-progress-bar"><div class="student-progress-fill" style="width:${progress}%"></div></div>
+                <div class="student-progress-pct">${progress}%</div>
+                <span class="student-badge ${status === 'done' ? 'badge-done' : 'badge-active'}">${status === 'done' ? 'Done' : 'Active'}</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ============================================
+// MODULE MANAGEMENT
+// ============================================
+function openModalWith(title, sub, data, courseKey, showCourseSelect) {
+    document.getElementById('uploadModalTitle').textContent = title;
+    document.getElementById('uploadModalSub').textContent = sub;
+    document.getElementById('uploadTitle').value = data.title || '';
+    document.getElementById('uploadYoutube').value = data.youtubeId || '';
+    document.getElementById('uploadDuration').value = data.duration || '';
+    document.getElementById('uploadDesc').value = data.desc || '';
+    document.getElementById('uploadCourse').value = courseKey;
+    document.getElementById('uploadCourse').closest('label, div')
+    document.getElementById('uploadCourseLabel').style.display = showCourseSelect ? 'block' : 'none';
+    document.getElementById('uploadCourse').style.display = showCourseSelect ? 'block' : 'none';
+    document.getElementById('uploadModal').classList.add('open');
+    document.getElementById('uploadTitle').focus();
+}
+
+function openAddModal() {
+    editState = { mode: 'new', courseKey: instructorCourseTab, idx: -1 };
+    openModalWith('Add New Lesson', 'Add a custom lesson to the selected course.', {}, instructorCourseTab, true);
+    document.getElementById('uploadTitle').value = '';
+}
+
+function editBaseLesson(courseKey, idx) {
+    editState = { mode: 'base', courseKey, idx };
+    const base = COURSES[courseKey].lessons[idx];
+    const ov = lessonOverrides[courseKey + '_' + idx] || {};
+    const data = { ...base, ...ov };
+    openModalWith('Edit Lesson', `Set the YouTube video and details for "${data.title}".`, data, courseKey, false);
+    document.getElementById('uploadTitle').value = data.title;
+}
+
+function editExtraLesson(courseKey, idx) {
+    editState = { mode: 'extra', courseKey, idx };
+    const lesson = (instructorModules[courseKey] || [])[idx];
+    openModalWith('Edit Lesson', 'Update this custom lesson.', lesson || {}, courseKey, false);
+}
+
+function closeUploadModal() {
+    document.getElementById('uploadModal').classList.remove('open');
+}
+
+function saveModule() {
+    const title    = document.getElementById('uploadTitle').value.trim();
+    const rawYT    = document.getElementById('uploadYoutube').value.trim();
+    const duration = document.getElementById('uploadDuration').value.trim() || '—';
+    const desc     = document.getElementById('uploadDesc').value.trim();
+    const course   = editState.mode === 'new'
+        ? document.getElementById('uploadCourse').value
+        : editState.courseKey;
+    const youtubeId = extractYouTubeId(rawYT);
+
+    if (!title) { showToast('Please enter a lesson title.'); return; }
+
+    if (editState.mode === 'new') {
+        if (!instructorModules[course]) instructorModules[course] = [];
+        instructorModules[course].push({ title, youtubeId, duration, desc });
+        localStorage.setItem('kac_instructor_modules', JSON.stringify(instructorModules));
+        showToast('Lesson added!');
+
+    } else if (editState.mode === 'base') {
+        const key = course + '_' + editState.idx;
+        lessonOverrides[key] = { title, youtubeId, duration, desc };
+        localStorage.setItem('kac_lesson_overrides', JSON.stringify(lessonOverrides));
+        showToast('Lesson updated!');
+
+    } else if (editState.mode === 'extra') {
+        if (!instructorModules[course]) instructorModules[course] = [];
+        instructorModules[course][editState.idx] = { title, youtubeId, duration, desc };
+        localStorage.setItem('kac_instructor_modules', JSON.stringify(instructorModules));
+        showToast('Lesson updated!');
+    }
+
+    closeUploadModal();
+    renderModuleManagement();
+    updateDashboardStats();
+}
+
+function clearBaseLesson(courseKey, idx) {
+    const key = courseKey + '_' + idx;
+    delete lessonOverrides[key];
+    localStorage.setItem('kac_lesson_overrides', JSON.stringify(lessonOverrides));
+    renderModuleManagement();
+    updateDashboardStats();
+    showToast('Video cleared from lesson.');
+}
+
+function deleteExtraLesson(courseKey, idx) {
+    if (!instructorModules[courseKey]) return;
+    instructorModules[courseKey].splice(idx, 1);
+    localStorage.setItem('kac_instructor_modules', JSON.stringify(instructorModules));
+    renderModuleManagement();
+    updateDashboardStats();
+    showToast('Lesson removed.');
+}
+
+// ============================================
+// STUDENT LOGIN / DASHBOARD
+// ============================================
+function openStudentLogin() {
+    document.getElementById('studentLoginModal').classList.add('open');
+    document.getElementById('studentEmail').focus();
+}
+function closeStudentLoginModal() {
+    document.getElementById('studentLoginModal').classList.remove('open');
+}
+function doStudentLogin() {
+    const email = document.getElementById('studentEmail').value.trim();
+    const pw    = document.getElementById('studentPassword').value;
+    const err   = document.getElementById('studentLoginError');
+    if (email === STUDENT_EMAIL && pw === STUDENT_PASSWORD) {
+        localStorage.setItem('kac_student_logged_in', '1');
+        closeStudentLoginModal();
+        showStudentDashboard();
+    } else {
+        err.style.display = 'block';
+        document.getElementById('studentPassword').value = '';
+    }
+}
+function studentLogout() {
+    localStorage.removeItem('kac_student_logged_in');
+    document.getElementById('student-dashboard').style.display = 'none';
+    document.getElementById('studentLoginModal').classList.add('open');
+    document.getElementById('studentEmail').value = '';
+    document.getElementById('studentPassword').value = '';
+    document.getElementById('studentLoginError').style.display = 'none';
+}
+
+function showStudentDashboard() {
+    document.getElementById('student-view').style.display = 'none';
+    document.getElementById('instructor-view').style.display = 'none';
+    document.getElementById('student-dashboard').style.display = 'block';
+    renderStudentDashboard();
+}
+
+function renderStudentDashboard() {
+    const grid = document.getElementById('student-courses-grid');
+    if (!grid) return;
+    grid.innerHTML = Object.entries(COURSES).map(([key, course]) => {
+        const stored   = localStorage.getItem('kac_progress_' + key);
+        const done_map = stored ? JSON.parse(stored) : {};
+        const extra    = instructorModules[key] || [];
+        const total    = course.lessons.length + extra.length;
+        const done     = Object.values(done_map).filter(Boolean).length;
+        const pct      = total > 0 ? Math.round((done / total) * 100) : 0;
+        const btnText  = pct === 0 ? 'Start Course →' : pct === 100 ? 'Review Course' : `Continue — Lesson ${parseInt(localStorage.getItem('kac_last_lesson_' + key) || '0') + 1}`;
+        const btnCls   = pct === 0 ? '' : pct === 100 ? 'completed' : 'in-progress';
+        return `<div class="student-course-card" onclick="enterCourse('${key}')">
+            <div class="student-course-thumb" style="background:${COURSE_COLORS[key]};">
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px 18px;background:linear-gradient(to top,rgba(0,0,0,0.45) 0%,transparent 100%);">
+                    <span style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:5px;">${course.titleShort}</span>
+                    <span style="font-size:14px;font-weight:800;color:#fff;line-height:1.3;">${course.title}</span>
+                </div>
+                ${pct === 100 ? '<div style="position:absolute;top:12px;right:12px;background:var(--teal);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:100px;text-transform:uppercase;">Complete</div>' : ''}
+            </div>
+            <div class="student-course-body">
+                <div class="student-progress-row2">
+                    <div class="student-progress-track"><div class="student-progress-fill2" style="width:${pct}%"></div></div>
+                    <span class="student-progress-txt">${done}/${total}</span>
+                    <span class="student-progress-txt">${pct}%</span>
+                </div>
+                <button class="btn-continue ${btnCls}">${btnText}</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function enterCourse(courseKey) {
+    currentCourse = courseKey;
+    const stored = localStorage.getItem('kac_progress_' + courseKey);
+    completed = stored ? JSON.parse(stored) : {};
+    document.getElementById('student-dashboard').style.display = 'none';
+    document.getElementById('student-view').style.display = 'block';
+    renderStudentView();
+}
+
+function backToDashboard() {
+    document.getElementById('student-view').style.display = 'none';
+    document.getElementById('student-dashboard').style.display = 'block';
+    // Reset hero state for next visit
+    document.getElementById('course-hero').classList.remove('minimised');
+    document.getElementById('hero-chevron').style.transform = 'rotate(0deg)';
+    renderStudentDashboard();
+}
+
+function toggleHero() {
+    const hero    = document.getElementById('course-hero');
+    const chevron = document.getElementById('hero-chevron');
+    const isMin   = hero.classList.toggle('minimised');
+    chevron.style.transform = isMin ? 'rotate(180deg)' : 'rotate(0deg)';
+
+    // Sync back-button visibility in collapsed bar
+    const minBtn = document.getElementById('back-dashboard-btn-min');
+    if (minBtn) minBtn.style.display = localStorage.getItem('kac_student_logged_in') === '1' ? 'inline-flex' : 'none';
+
+    // Sync collapsed title
+    const titleEl = document.getElementById('hero-collapsed-title');
+    if (titleEl) titleEl.textContent = document.getElementById('hero-title').textContent;
+}
+
+// ============================================
+// REACTIONS
+// ============================================
+function renderReactions() {
+    const el = document.getElementById('reactions-row');
+    if (!el) return;
+    const reactions   = JSON.parse(localStorage.getItem('kac_reactions')    || '{}');
+    const myReactions = JSON.parse(localStorage.getItem('kac_my_reactions') || '{}');
+    el.innerHTML = REACTIONS_DATA.map(r => {
+        const rKey  = `${currentCourse}_${currentLessonIdx}_${r.key}`;
+        const count = reactions[rKey]   || 0;
+        const mine  = !!myReactions[rKey];
+        return `<button class="reaction-btn ${mine ? 'active' : ''}" onclick="toggleReaction('${r.key}')">
+            <span>${r.emoji}</span>
+            <span class="reaction-label">${r.label}</span>
+            ${count > 0 ? `<span class="reaction-count">${count}</span>` : ''}
+        </button>`;
+    }).join('');
+}
+
+function toggleReaction(type) {
+    const reactions   = JSON.parse(localStorage.getItem('kac_reactions')    || '{}');
+    const myReactions = JSON.parse(localStorage.getItem('kac_my_reactions') || '{}');
+    const rKey = `${currentCourse}_${currentLessonIdx}_${type}`;
+    if (myReactions[rKey]) {
+        reactions[rKey] = Math.max(0, (reactions[rKey] || 1) - 1);
+        delete myReactions[rKey];
+    } else {
+        reactions[rKey] = (reactions[rKey] || 0) + 1;
+        myReactions[rKey] = true;
+    }
+    localStorage.setItem('kac_reactions',    JSON.stringify(reactions));
+    localStorage.setItem('kac_my_reactions', JSON.stringify(myReactions));
+    renderReactions();
+}
+
+// ============================================
+// HELPERS
+// ============================================
+function toggleMobileNav() {
+    const nav = document.getElementById('mobileNav'), btn = document.querySelector('.mobile-menu-btn');
+    nav.classList.toggle('open');
+    btn.textContent = nav.classList.contains('open') ? '✕' : '☰';
+}
+
+let toastT = null;
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeLoginModal(); closeUploadModal(); }
+    // don't close student login on Escape — user must sign in
+});
+
+init();
+</script>
+</body>
+</html>
